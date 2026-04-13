@@ -1,0 +1,380 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Jua&family=ZCOOL+KuaiLe&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* 60/30/10 Color Balance */
+    /* 60% - Soft neutral background (low saturation warmth) */
+    --background: 30 30% 97%;
+    --foreground: 25 30% 22%;
+
+    /* Card surfaces */
+    --card: 30 20% 99%;
+    --card-foreground: 25 30% 22%;
+
+    --popover: 30 20% 99%;
+    --popover-foreground: 25 30% 22%;
+
+    /* 30% - Primary accent (warm coral-orange) */
+    --primary: 18 85% 52%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary surfaces */
+    --secondary: 30 60% 95%;
+    --secondary-foreground: 18 80% 40%;
+
+    /* Muted elements */
+    --muted: 30 25% 94%;
+    --muted-foreground: 25 15% 45%;
+
+    /* Accent highlights */
+    --accent: 24 70% 92%;
+    --accent-foreground: 18 80% 38%;
+
+    /* 10% - Dark warm tone for emphasis */
+    --emphasis: 20 35% 18%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 30 20% 88%;
+    --input: 30 20% 88%;
+    --ring: 18 85% 52%;
+
+    --radius: 1.5rem;
+
+    /* Warm shadow tokens */
+    --shadow-warm: 0 4px 24px -6px hsl(18 60% 50% / 0.18);
+    --shadow-warm-lg: 0 8px 40px -10px hsl(18 60% 45% / 0.22);
+    --shadow-warm-glow: 0 6px 32px -8px hsl(18 80% 55% / 0.28);
+    --card-shadow: 0 4px 20px -4px hsl(25 30% 40% / 0.08);
+    --card-shadow-hover: 0 8px 32px -6px hsl(25 30% 40% / 0.12);
+    --shadow-plush: 0 6px 24px -4px hsl(25 40% 45% / 0.12);
+    --shadow-calendar-elevated: 0 0 36px -14px hsl(25 18% 45% / 0.18),
+      0 14px 44px -22px hsl(25 20% 42% / 0.14),
+      0 5px 14px -10px hsl(25 16% 38% / 0.10);
+
+    /* Gradient background */
+    --gradient-peach: linear-gradient(180deg, hsl(30 30% 97%) 0%, hsl(28 40% 94%) 100%);
+
+    /* Birthday day-cell styling - unified pink theme */
+    --birthday-bg: 350 70% 94%;
+    --birthday-border: 350 65% 78%;
+    --birthday-text: 350 50% 55%;
+
+    /* Analysis card warm tones */
+    --analysis-card-light: 32 70% 95%;
+    --analysis-card-dark: 28 60% 88%;
+
+    --sidebar-background: 30 30% 98%;
+    --sidebar-foreground: 25 20% 28%;
+    --sidebar-primary: 25 25% 18%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 30 50% 95%;
+    --sidebar-accent-foreground: 25 25% 18%;
+    --sidebar-border: 30 20% 90%;
+    --sidebar-ring: 18 85% 52%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Nunito', 'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    background: var(--gradient-peach);
+    min-height: 100vh;
+  }
+
+  /* Subtle paw pattern overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill='%23b87333' fill-opacity='1'%3E%3Cellipse cx='30' cy='38' rx='8' ry='10'/%3E%3Ccircle cx='20' cy='26' r='5'/%3E%3Ccircle cx='40' cy='26' r='5'/%3E%3Ccircle cx='16' cy='36' r='4'/%3E%3Ccircle cx='44' cy='36' r='4'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 80px 80px;
+  }
+}
+
+@layer utilities {
+  .shadow-card {
+    box-shadow: var(--card-shadow);
+  }
+
+  .shadow-card-hover {
+    box-shadow: var(--card-shadow-hover);
+  }
+
+  .shadow-warm {
+    box-shadow: var(--shadow-warm);
+  }
+
+  .shadow-warm-lg {
+    box-shadow: var(--shadow-warm-lg);
+  }
+
+  .shadow-warm-glow {
+    box-shadow: var(--shadow-warm-glow);
+  }
+
+  .shadow-plush {
+    box-shadow: var(--shadow-plush);
+  }
+
+  .shadow-calendar-elevated {
+    box-shadow: var(--shadow-calendar-elevated);
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .animate-bounce-gentle {
+    animation: bounce-gentle 2s ease-in-out infinite;
+  }
+
+  .animate-scan {
+    animation: scan 3s linear infinite;
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .animate-ping-slow {
+    animation: ping 3s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  .animate-ping-slow-delay {
+    animation: ping 3s cubic-bezier(0, 0, 0.2, 1) infinite 1s;
+  }
+
+  .animate-bounce-delay-1 {
+    animation: bounce 1s infinite;
+    animation-delay: 0.1s;
+  }
+
+  .animate-bounce-delay-2 {
+    animation: bounce 1s infinite;
+    animation-delay: 0.2s;
+  }
+
+  .animate-bounce-delay-3 {
+    animation: bounce 1s infinite;
+    animation-delay: 0.3s;
+  }
+
+  .bg-gradient-peach {
+    background: var(--gradient-peach);
+  }
+
+  /* Typography hierarchy */
+  .text-emphasis {
+    color: hsl(var(--emphasis));
+  }
+
+  /* Responsive App Container */
+  .app-container {
+    @apply w-full mx-auto;
+    max-width: 100%;
+  }
+
+  @media (min-width: 480px) {
+    .app-container {
+      max-width: 480px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .app-container {
+      max-width: 540px;
+    }
+  }
+}
+
+@keyframes bounce-gentle {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes scan {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(400%);
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes scale-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+}
+
+@keyframes wiggle {
+
+  0%,
+  100% {
+    transform: rotate(-3deg);
+  }
+
+  50% {
+    transform: rotate(3deg);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.3s ease-out forwards;
+}
+
+.animate-wiggle {
+  animation: wiggle 0.5s ease-in-out infinite;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}
+
+.animate-fade-out {
+  animation: fade-out 0.3s ease-out forwards;
+}
+
+.animate-slide-down {
+  animation: slide-down 0.3s ease-out forwards;
+}
+
+.animate-scale-out {
+  animation: scale-out 0.3s ease-out forwards;
+}
+
+.animation-delay-100 {
+  animation-delay: 100ms;
+}
+
+.animation-delay-200 {
+  animation-delay: 200ms;
+}
+
+.animation-delay-300 {
+  animation-delay: 300ms;
+}
+
+/* Hide scrollbar for iOS-style pickers */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

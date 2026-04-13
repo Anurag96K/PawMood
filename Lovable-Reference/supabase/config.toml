@@ -1,0 +1,7 @@
+project_id = "cnsnckewuicoahotcled"
+
+[functions.analyze-pet-mood]
+verify_jwt = false
+
+[functions.validate-pet-image]
+verify_jwt = false
