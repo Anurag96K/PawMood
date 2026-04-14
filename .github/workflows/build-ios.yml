@@ -85,6 +85,14 @@ jobs:
       - name: Resolve Swift package dependencies
         run: xcodebuild -resolvePackageDependencies -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME"
 
+      - name: Configure Xcode project for Manual Signing
+        run: |
+          PBXPROJ="$XCODE_PROJECT/project.pbxproj"
+          sed -i '' 's/ProvisioningStyle = Automatic;/ProvisioningStyle = Manual;/g' "$PBXPROJ"
+          sed -i '' 's/CODE_SIGN_STYLE = Automatic;/CODE_SIGN_STYLE = Manual;/g' "$PBXPROJ"
+          sed -i '' "s/CODE_SIGN_IDENTITY = \"Apple Development\";/CODE_SIGN_IDENTITY = \"Apple Distribution\"; PROVISIONING_PROFILE_SPECIFIER = \"$IOS_PROFILE_NAME\";/g" "$PBXPROJ"
+          sed -i '' "s/CODE_SIGN_IDENTITY = \"iPhone Developer\";/CODE_SIGN_IDENTITY = \"Apple Distribution\"; PROVISIONING_PROFILE_SPECIFIER = \"$IOS_PROFILE_NAME\";/g" "$PBXPROJ"
+
       - name: Archive iOS app
         shell: bash
         run: |
