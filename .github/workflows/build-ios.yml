@@ -28,7 +28,7 @@ jobs:
       XCODE_SCHEME: App
       ARCHIVE_PATH: build/PawMood.xcarchive
       EXPORT_PATH: build/export
-      EXPORT_METHOD: ${{ github.event.inputs.export_method || vars.IOS_EXPORT_METHOD || 'app-store' }}
+      EXPORT_METHOD: ${{ github.event.inputs.export_method || vars.IOS_EXPORT_METHOD || 'ad-hoc' }}
       APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
       IOS_CERTIFICATE_P12_BASE64: ${{ secrets.IOS_CERTIFICATE_P12_BASE64 }}
       IOS_CERTIFICATE_PASSWORD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
