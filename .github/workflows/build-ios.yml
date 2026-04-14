@@ -6,11 +6,11 @@ on:
       export_method:
         description: Export method for the IPA
         required: true
-        default: app-store
+        default: ad-hoc
         type: choice
         options:
-          - app-store
           - ad-hoc
+          - app-store
           - enterprise
           - development
   push:
