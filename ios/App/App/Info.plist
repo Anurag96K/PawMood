@@ -58,5 +58,11 @@
 			</array>
 		</dict>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>PawMood requires camera access to analyze your pet's mood.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>PawMood requires access to your photo library to analyze existing photos of your pet.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>PawMood requires access to your photo library to save generated memories.</string>
 </dict>
 </plist>

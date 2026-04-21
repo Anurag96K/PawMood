@@ -34,7 +34,12 @@ export function useAuth() {
         }
         setSession(session);
         setUser(session?.user ?? null);
-        setLoading(false);
+        
+        // Only mark loading as false on explicit auth events, 
+        // to prevent falsely stopping the loading spinner before getSession resolves.
+        if (event !== 'INITIAL_SESSION') {
+          setLoading(false);
+        }
 
         if (event === 'SIGNED_IN' && session?.user?.id) {
           console.log("Identifying with RevenueCat:", session.user.id);

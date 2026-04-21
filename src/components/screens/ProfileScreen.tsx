@@ -127,7 +127,7 @@ export function ProfileScreen({
 
 
   return (
-    <div className="min-h-full bg-background pb-24">
+    <div className="h-full overflow-y-auto bg-background pb-24 overscroll-none">
       {/* Header */}
       <header className="px-5 pt-10 pb-5">
         <h1 className="text-3xl font-extrabold text-foreground tracking-tight">{t("profileTitle")}</h1>

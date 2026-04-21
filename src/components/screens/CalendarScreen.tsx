@@ -728,7 +728,7 @@ export function CalendarScreen({ isPremium, isBasic = false, onUpgrade, onNaviga
   };
 
   return (
-    <div className={cn("h-full overflow-hidden pb-24 relative flex flex-col", getThemeClasses())}>
+    <div className={cn("h-full overflow-y-auto pb-24 relative flex flex-col", getThemeClasses())}>
       {/* Birthday Theme Background - only background layer, no decorations/banner */}
       {isBirthday && <BirthdayThemeBackground />}
 

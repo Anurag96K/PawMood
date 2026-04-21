@@ -487,10 +487,8 @@ function AppContent() {
         <div className="app-container relative h-full">
           <div
             ref={scrollContainerRef}
-            className={cn(
-              "h-full overscroll-y-contain",
-              activeTab === "profile" ? "overflow-y-auto" : "overflow-hidden"
-            )}>
+            className="h-full overflow-hidden"
+          >
             {activeTab === "camera" && (
               <CameraScreen
                 onNavigateToCalendar={() => handleTabChange("calendar")}
