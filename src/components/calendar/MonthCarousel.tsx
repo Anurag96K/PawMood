@@ -373,216 +373,18 @@ export function MonthCarousel({
 
                 return (
                   <div className="relative overflow-hidden">
-                    {/* Outer container border with rounded corners - frames only the date area */}
+                    {/* Simple Outer Boundary - frames only the date area cleanly without step logic */}
                     <div
-                      className="absolute inset-0 pointer-events-none"
-                      style={{ zIndex: 2 }}
+                      className="absolute inset-0 pointer-events-none rounded-[8px]"
+                      style={{
+                        zIndex: 2,
+                        top: `${firstRowWithDate * cellHeight}%`,
+                        bottom: `${(rowCount - lastRowWithDate - 1) * cellHeight}%`,
+                        left: 0,
+                        right: 0,
+                      }}
                       aria-hidden="true"
-                    >
-                      {/* All four corners use identical styling */}
-
-                      {/* Top-left corner arc (at first date column) */}
-                      <div
-                        className="absolute"
-                        style={{
-                          top: 0,
-                          left: `${firstDateColumn * cellWidth}%`,
-                          width: '8px',
-                          height: '8px',
-                          borderTop: '1px solid rgba(0, 0, 0, 0.07)',
-                          borderLeft: '1px solid rgba(0, 0, 0, 0.07)',
-                          borderTopLeftRadius: '8px',
-                        }}
-                      />
-
-                      {/* Top-right corner arc - only if month reaches col 6 in first row */}
-                      <div
-                        className="absolute"
-                        style={{
-                          top: 0,
-                          right: 0,
-                          width: '8px',
-                          height: '8px',
-                          borderTop: '1px solid rgba(0, 0, 0, 0.07)',
-                          borderRight: '1px solid rgba(0, 0, 0, 0.07)',
-                          borderTopRightRadius: '8px',
-                        }}
-                      />
-
-                      {/* Bottom-left corner arc */}
-                      <div
-                        className="absolute"
-                        style={{
-                          bottom: 0,
-                          left: 0,
-                          width: '8px',
-                          height: '8px',
-                          borderBottom: '1px solid rgba(0, 0, 0, 0.07)',
-                          borderLeft: '1px solid rgba(0, 0, 0, 0.07)',
-                          borderBottomLeftRadius: '8px',
-                        }}
-                      />
-
-                      {/* Bottom-right corner arc - only if month reaches col 6 in last row */}
-                      {lastDateColumn === 6 && (
-                        <div
-                          className="absolute"
-                          style={{
-                            bottom: 0,
-                            right: 0,
-                            width: '8px',
-                            height: '8px',
-                            borderBottom: '1px solid rgba(0, 0, 0, 0.07)',
-                            borderRight: '1px solid rgba(0, 0, 0, 0.07)',
-                            borderBottomRightRadius: '8px',
-                          }}
-                        />
-                      )}
-
-                      {/* Top border - between corners */}
-                      <div
-                        className="absolute"
-                        style={{
-                          top: 0,
-                          left: `calc(${firstDateColumn * cellWidth}% + 8px)`,
-                          right: '8px',
-                          height: '1px',
-                          background: 'rgba(0, 0, 0, 0.07)',
-                        }}
-                      />
-
-                      {/* Right border - first part (from top corner to row before last if it steps in) */}
-                      <div
-                        className="absolute"
-                        style={{
-                          top: '8px',
-                          right: 0,
-                          height: lastDateColumn < 6 ? `calc(${(rowCount - 1) * cellHeight}% - 8px)` : `calc(100% - 16px)`,
-                          width: '1px',
-                          background: 'rgba(0, 0, 0, 0.07)',
-                        }}
-                      />
-
-                      {/* Bottom border - from left corner to last date column corner */}
-                      <div
-                        className="absolute"
-                        style={{
-                          bottom: 0,
-                          left: '8px',
-                          width: lastDateColumn === 6 ? 'calc(100% - 16px)' : `calc(${(lastDateColumn + 1) * cellWidth}% - 16px)`,
-                          height: '1px',
-                          background: 'rgba(0, 0, 0, 0.07)',
-                        }}
-                      />
-
-                      {/* Left border - first row segment (from below top corner to row 1) */}
-                      <div
-                        className="absolute"
-                        style={{
-                          top: '8px',
-                          left: `${firstDateColumn * cellWidth}%`,
-                          height: `calc(${cellHeight}% - 8px)`,
-                          width: '1px',
-                          background: 'rgba(0, 0, 0, 0.07)',
-                        }}
-                      />
-
-                      {/* Left border - remaining rows (from row 1 to bottom corner) */}
-                      {rowCount > 1 && (
-                        <div
-                          className="absolute"
-                          style={{
-                            top: `${cellHeight}%`,
-                            left: 0,
-                            bottom: '8px',
-                            width: '1px',
-                            background: 'rgba(0, 0, 0, 0.07)',
-                          }}
-                        />
-                      )}
-
-                      {/* Top-Right Step Connector (only if row 1 doesn't start at col 0) */}
-                      {firstDateColumn > 0 && rowCount > 1 && (
-                        <>
-                          <div
-                            className="absolute"
-                            style={{
-                              top: `${cellHeight}%`,
-                              left: 0,
-                              width: '8px',
-                              height: '8px',
-                              borderTop: '1px solid rgba(0, 0, 0, 0.07)',
-                              borderLeft: '1px solid rgba(0, 0, 0, 0.07)',
-                              borderTopLeftRadius: '8px',
-                            }}
-                          />
-                          <div
-                            className="absolute"
-                            style={{
-                              top: `${cellHeight}%`,
-                              left: '8px',
-                              width: `calc(${firstDateColumn * cellWidth}% - 8px)`,
-                              height: '1px',
-                              background: 'rgba(0, 0, 0, 0.07)',
-                            }}
-                          />
-                        </>
-                      )}
-
-                      {/* Bottom-Right Step Connector (if last day isn't col 6) */}
-                      {lastDateColumn < 6 && rowCount > 1 && (
-                        <>
-                          {/* Inner corner curve (top-right of the step-in) */}
-                          <div
-                            className="absolute"
-                            style={{
-                              top: `calc(${(rowCount - 1) * cellHeight}% - 8px)`,
-                              right: 0,
-                              width: '8px',
-                              height: '8px',
-                              borderBottom: '1px solid rgba(0, 0, 0, 0.07)',
-                              borderRight: '1px solid rgba(0, 0, 0, 0.07)',
-                              borderBottomRightRadius: '8px',
-                            }}
-                          />
-                          {/* Horizontal line for the step-in boundary (from arc to arc) */}
-                          <div
-                            className="absolute"
-                            style={{
-                              top: `${(rowCount - 1) * cellHeight}%`,
-                              left: `${(lastDateColumn + 1) * cellWidth}%`,
-                              right: '8px',
-                              height: '1px',
-                              background: 'rgba(0, 0, 0, 0.07)',
-                            }}
-                          />
-                          {/* Outer corner curve (bottom-right of the date area) */}
-                          <div
-                            className="absolute"
-                            style={{
-                              bottom: 0,
-                              left: `calc(${(lastDateColumn + 1) * cellWidth}% - 8px)`,
-                              width: '8px',
-                              height: '8px',
-                              borderBottom: '1px solid rgba(0, 0, 0, 0.07)',
-                              borderRight: '1px solid rgba(0, 0, 0, 0.07)',
-                              borderBottomRightRadius: '8px',
-                            }}
-                          />
-                          {/* Vertical line for the step-in (attached to arc) */}
-                          <div
-                            className="absolute"
-                            style={{
-                              top: `${(rowCount - 1) * cellHeight}%`,
-                              left: `${(lastDateColumn + 1) * cellWidth}%`,
-                              bottom: '8px',
-                              width: '1px',
-                              background: 'rgba(0, 0, 0, 0.07)',
-                            }}
-                          />
-                        </>
-                      )}
-                    </div>
+                    />
 
                     {/* Internal grid lines overlay - sits behind content, clipped to bounds */}
                     <div
@@ -590,90 +392,41 @@ export function MonthCarousel({
                       style={{ zIndex: 0 }}
                       aria-hidden="true"
                     >
-                      {/* Internal vertical lines - only between adjacent date cells */}
+                      {/* Internal vertical lines */}
                       {[1, 2, 3, 4, 5, 6].map((colIndex) => {
-                        const segments: { top: number; bottom: number }[] = [];
-                        let segmentStart: number | null = null;
-
-                        for (let row = 0; row < rowCount; row++) {
-                          const leftHasDate = getColumnHasDateInRow(colIndex - 1, row);
-                          const rightHasDate = getColumnHasDateInRow(colIndex, row);
-                          const isStartStep = row === 0 && colIndex === firstDateColumn;
-                          const isEndStep = row === rowCount - 1 && colIndex === (lastDateColumn + 1);
-
-                          // Draw line if either side has a date (to frame entries),
-                          // EXCEPT if it's the "Start Step" or "End Step" edge which is handled by the Outer Border.
-                          const shouldDrawLine = (leftHasDate || rightHasDate) && !isStartStep && !isEndStep;
-
-                          if (shouldDrawLine && segmentStart === null) {
-                            segmentStart = row;
-                          } else if (!shouldDrawLine && segmentStart !== null) {
-                            segments.push({ top: segmentStart, bottom: row });
-                            segmentStart = null;
-                          }
-                        }
-                        if (segmentStart !== null) {
-                          segments.push({ top: segmentStart, bottom: rowCount });
-                        }
-
-                        return segments.map((seg, segIdx) => {
-                          const topPos = `${seg.top * cellHeight}%`;
-                          const bottomPos = `${(rowCount - seg.bottom) * cellHeight}%`;
-
-                          return (
-                            <div
-                              key={`v-${colIndex}-${segIdx}`}
-                              className="absolute"
-                              style={{
-                                left: `${colIndex * cellWidth}%`,
-                                top: topPos,
-                                bottom: bottomPos,
-                                width: '1px',
-                                background: 'rgba(0, 0, 0, 0.07)',
-                              }}
-                            />
-                          );
-                        });
+                        return (
+                          <div
+                            key={`v-${colIndex}`}
+                            className="absolute"
+                            style={{
+                              left: `${colIndex * cellWidth}%`,
+                              top: `${firstRowWithDate * cellHeight}%`,
+                              bottom: `${(rowCount - lastRowWithDate - 1) * cellHeight}%`,
+                              width: '1px',
+                              background: 'rgba(0, 0, 0, 0.05)',
+                            }}
+                          />
+                        );
                       })}
 
-                      {/* Internal horizontal lines - only between rows where BOTH have dates */}
+                      {/* Internal horizontal lines */}
                       {Array.from({ length: rowCount - 1 }, (_, rowIdx) => rowIdx + 1).map((rowIndex) => {
-                        let segmentStart: number | null = null;
-                        const segments: { left: number; right: number }[] = [];
-
-                        for (let col = 0; col < 7; col++) {
-                          const aboveHasDate = getColumnHasDateInRow(col, rowIndex - 1);
-                          const belowHasDate = getColumnHasDateInRow(col, rowIndex);
-                          const isStartStepConnector = rowIndex === 1 && col < firstDateColumn;
-                          const isEndStepConnector = rowIndex === rowCount - 1 && col > lastDateColumn;
-
-                          // Draw line if either side has a date, except for Start/End Step connectors
-                          const shouldDrawLine = (aboveHasDate || belowHasDate) && !isStartStepConnector && !isEndStepConnector;
-
-                          if (shouldDrawLine && segmentStart === null) {
-                            segmentStart = col;
-                          } else if (!shouldDrawLine && segmentStart !== null) {
-                            segments.push({ left: segmentStart, right: col });
-                            segmentStart = null;
-                          }
-                        }
-                        if (segmentStart !== null) {
-                          segments.push({ left: segmentStart, right: 7 });
-                        }
-
-                        return segments.map((seg, segIdx) => (
+                        // Only draw if within bounds of the month's rows
+                        if (rowIndex <= firstRowWithDate || rowIndex > lastRowWithDate) return null;
+                        
+                        return (
                           <div
-                            key={`h-${rowIndex}-${segIdx}`}
+                            key={`h-${rowIndex}`}
                             className="absolute"
                             style={{
                               top: `${rowIndex * cellHeight}%`,
-                              left: `${seg.left * cellWidth}%`,
-                              right: `${(7 - seg.right) * cellWidth}%`,
+                              left: 0,
+                              right: 0,
                               height: '1px',
-                              background: 'rgba(0, 0, 0, 0.07)',
+                              background: 'rgba(0, 0, 0, 0.05)',
                             }}
                           />
-                        ));
+                        );
                       })}
                     </div>
 

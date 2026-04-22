@@ -294,21 +294,17 @@ export function MonthYearPicker({
                 }}
               >
                 {availableMonths.map((monthIndex) => (
-                  <button
+                  <div
                     key={monthIndex}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleMonthClick(monthIndex);
-                    }}
                     className={cn(
-                      "w-full h-9 flex items-center justify-center snap-center snap-stop-always transition-opacity duration-150",
+                      "w-full h-9 flex items-center justify-center snap-center snap-always transition-opacity duration-150 select-none",
                       selectedMonth === monthIndex
                         ? "text-foreground font-bold text-sm"
                         : "text-muted-foreground text-sm opacity-40"
                     )}
                   >
                     {t(MONTHS[monthIndex])}
-                  </button>
+                  </div>
                 ))}
               </div>
 
@@ -324,21 +320,17 @@ export function MonthYearPicker({
                 }}
               >
                 {years.map((year) => (
-                  <button
+                  <div
                     key={year}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleYearClick(year);
-                    }}
                     className={cn(
-                      "w-full h-9 flex items-center justify-center snap-center snap-always transition-opacity duration-150",
+                      "w-full h-9 flex items-center justify-center snap-center snap-always transition-opacity duration-150 select-none",
                       selectedYear === year
                         ? "text-foreground font-bold text-sm"
                         : "text-muted-foreground text-sm opacity-40"
                     )}
                   >
                     {year}
-                  </button>
+                  </div>
                 ))}
               </div>
             </div>
@@ -347,14 +339,14 @@ export function MonthYearPicker({
             <div className="flex border-t border-border/40">
               <button
                 onClick={onClose}
-                className="flex-1 py-2.5 text-sm text-muted-foreground hover:bg-accent/30 active:scale-[0.98] transition-transform"
+                className="flex-1 py-2.5 text-sm text-muted-foreground active:bg-accent/30 active:scale-[0.98] transition-transform"
               >
                 Cancel
               </button>
               <div className="w-px bg-border/40" />
               <button
                 onClick={handleConfirm}
-                className="flex-1 py-2.5 text-sm font-medium text-primary hover:bg-accent/30 active:scale-[0.98] transition-transform"
+                className="flex-1 py-2.5 text-sm font-medium text-primary active:bg-accent/30 active:scale-[0.98] transition-transform"
               >
                 Done
               </button>

@@ -547,7 +547,7 @@ export function ProfileScreen({
               key={item.label}
               onClick={item.action}
               className={cn(
-                "w-full flex items-center justify-between px-4 py-3.5 hover:bg-muted/50 transition-colors",
+                "w-full flex items-center justify-between px-4 py-3.5 active:bg-muted/50 transition-colors",
                 index > 0 && "border-t border-border/50"
               )}
             >

@@ -140,7 +140,7 @@ export function SettingsPage({ onClose, onSignOut, currentPlan, onUpgrade, initi
         <button
           key={activeSection === "main" ? "close" : "back"}
           onClick={activeSection === "main" ? onClose : handleBack}
-          className="w-8 h-8 rounded-full bg-muted flex items-center justify-center hover:bg-accent transition-colors"
+          className="w-8 h-8 rounded-full bg-muted flex items-center justify-center active:bg-accent transition-colors"
         >
           <ArrowLeft className="w-4 h-4 text-foreground" />
         </button>
@@ -196,7 +196,7 @@ function MainSettingsMenu({
         <button
           key={item.id}
           onClick={() => onSelectSection(item.id)}
-          className="w-full flex items-center gap-3 p-3 bg-card rounded-xl border border-border hover:bg-accent/50 transition-colors"
+          className="w-full flex items-center gap-3 p-3 bg-card rounded-xl border border-border active:bg-accent/50 transition-colors"
         >
           <div className="w-9 h-9 rounded-lg bg-accent flex items-center justify-center">
             <item.icon className="w-4 h-4 text-primary" />
@@ -212,7 +212,7 @@ function MainSettingsMenu({
       {/* Sign Out Button */}
       <button
         onClick={onSignOut}
-        className="w-full flex items-center gap-3 p-3 bg-card rounded-xl border border-border hover:bg-accent/50 transition-colors mt-4"
+        className="w-full flex items-center gap-3 p-3 bg-card rounded-xl border border-border active:bg-accent/50 transition-colors mt-4"
       >
         <div className="w-9 h-9 rounded-lg bg-muted flex items-center justify-center">
           <LogOut className="w-4 h-4 text-muted-foreground" />
@@ -227,7 +227,7 @@ function MainSettingsMenu({
       {/* Delete Account Button */}
       <button
         onClick={onDeleteAccount}
-        className="w-full flex items-center gap-3 p-3 bg-destructive/5 rounded-xl border border-destructive/10 hover:bg-destructive/10 transition-colors mt-1"
+        className="w-full flex items-center gap-3 p-3 bg-destructive/5 rounded-xl border border-destructive/10 active:bg-destructive/10 transition-colors mt-1"
       >
         <div className="w-9 h-9 rounded-lg bg-destructive/10 flex items-center justify-center">
           <Trash2 className="w-4 h-4 text-destructive" />
@@ -447,15 +447,12 @@ function LanguageSection({
       {languages.map((lang) => (
         <button
           key={lang.code}
-          onClick={() => {
-            onLanguageChange(lang.code);
-            setTimeout(onBack, 300);
-          }}
+          onClick={() => onLanguageChange(lang.code)}
           className={cn(
             "w-full flex items-center gap-3 p-3 rounded-xl border transition-colors",
             currentLanguage === lang.code
               ? "bg-primary/10 border-primary"
-              : "bg-card border-border hover:bg-accent/50"
+              : "bg-card border-border active:bg-accent/50"
           )}
         >
           <span className="text-2xl">{lang.flag}</span>
@@ -534,7 +531,7 @@ function HelpSupportSection({ onBack }: { onBack: () => void }) {
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => window.location.href = "mailto:support@petmood.app"}
-            className="w-full flex items-center gap-3 p-2.5 bg-card rounded-xl border border-border hover:bg-accent/50 transition-colors"
+            className="w-full flex items-center gap-3 p-2.5 bg-card rounded-xl border border-border active:bg-accent/50 transition-colors"
           >
             <Mail className="w-4 h-4 text-primary" />
             <span className="text-xs text-foreground">support@petmood.app</span>
