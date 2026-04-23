@@ -24,6 +24,7 @@ import { useExtraCredits } from "@/contexts/ExtraCreditsContext";
 import { AnimatePresence, motion } from "framer-motion";
 import { ExtraCreditsModal } from "../ExtraCreditsModal";
 import { Haptics, ImpactStyle } from "@capacitor/haptics";
+import { Capacitor } from "@capacitor/core";
 
 interface CameraScreenProps {
   onNavigateToCalendar: () => void;
@@ -192,7 +193,21 @@ export function CameraScreen({
 
     try {
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        console.log("Camera API not available");
+        console.log("Camera API not available, falling back to basic file input capture");
+        if (fileInputRef.current) {
+           fileInputRef.current.setAttribute('capture', 'environment');
+           fileInputRef.current.click();
+        }
+        return;
+      }
+
+      // Check if running in Capacitor Native iOS (WKWebView notoriously breaks getUserMedia)
+      if (Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'ios') {
+        console.log("iOS Native detected - using native file camera capture");
+        if (fileInputRef.current) {
+           fileInputRef.current.setAttribute('capture', 'environment');
+           fileInputRef.current.click();
+        }
         return;
       }
 
