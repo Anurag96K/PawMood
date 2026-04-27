@@ -26,7 +26,7 @@ export function BottomNavigation({ activeTab, onTabChange }: BottomNavigationPro
 
   return (
     <nav
-      className="fixed bottom-0 left-1/2 -translate-x-1/2 z-50 bg-background border-t border-border app-container"
+      className="relative w-full z-50 bg-background border-t border-border shrink-0"
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
       <div className="flex items-center justify-around px-1 py-2">

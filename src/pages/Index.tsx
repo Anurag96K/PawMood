@@ -483,11 +483,11 @@ function AppContent() {
   } else {
     // App View
     content = (
-      <div className="h-screen flex justify-center overflow-hidden">
-        <div className="app-container relative h-full">
+      <div className="fixed inset-0 flex justify-center overflow-hidden bg-background">
+        <div className="app-container flex flex-col h-full w-full relative">
           <div
             ref={scrollContainerRef}
-            className="h-full overflow-hidden"
+            className="flex-1 overflow-hidden relative"
           >
             {activeTab === "camera" && (
               <CameraScreen
@@ -538,7 +538,6 @@ function AppContent() {
               />
             )}
           </div>
-
           <BottomNavigation activeTab={activeTab} onTabChange={handleTabChange} />
         </div>
       </div>
