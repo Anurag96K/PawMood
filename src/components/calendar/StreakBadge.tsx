@@ -103,10 +103,10 @@ export function StreakBadge({ count, totalRecords, shouldShowStreak, petName, cl
         : t("streakSavePhotoAgain");
 
     return (
-        <div className={cn("flex items-center justify-center pt-1 pb-2", className)}>
+        <div className={cn("flex items-center justify-center pt-1 pb-2 mt-1 mb-2", className)}>
             <div
                 className={cn(
-                    "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm transition-colors",
+                    "inline-flex items-center gap-2 px-4 py-2 rounded-[20px] text-base font-semibold transition-colors shadow-sm",
                     isActiveStreak
                         ? tierStyle.bgColor
                         : "bg-[hsl(30_30%_96%)]"  // Very light beige, same hue as card bg
@@ -123,14 +123,14 @@ export function StreakBadge({ count, totalRecords, shouldShowStreak, petName, cl
                 ) : isFirstTime ? (
                     // First-time user - never saved before
                     <>
-                        <span className="text-sm">📸</span>
-                        <span className="text-muted-foreground/70 font-medium">{firstTimeText}</span>
+                        <span>📸</span>
+                        <span className="text-muted-foreground/80 font-bold">{firstTimeText}</span>
                     </>
                 ) : (
                     // Returning user with broken streak (2+ days since last save)
                     <>
-                        <span className="text-sm">📸</span>
-                        <span className="text-muted-foreground/70 font-medium">{returnText}</span>
+                        <span>📸</span>
+                        <span className="text-muted-foreground/80 font-bold">{returnText}</span>
                     </>
                 )}
             </div>
