@@ -152,51 +152,62 @@ export function MonthYearPicker({
     };
   }, [isOpen, onClose]);
 
-  const monthScrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const yearScrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const lastUpdateRef = useRef<number>(0);
-
-  const THROTTLE_MS = 80;
+  // Ref to strictly avoid stale closures and track haptic timing without blocking state
+  const lastVibrateRef = useRef<number>(0);
 
   const handleMonthScroll = () => {
     if (!monthRef.current) return;
-
-    const now = Date.now();
-    if (now - lastUpdateRef.current < THROTTLE_MS) return;
 
     const scrollTop = monthRef.current.scrollTop;
     const index = Math.round(scrollTop / ITEM_HEIGHT);
     const clampedIndex = Math.max(0, Math.min(index, availableMonths.length - 1));
     const newMonth = availableMonths[clampedIndex];
 
-    if (newMonth !== undefined && newMonth !== selectedMonth) {
-      lastUpdateRef.current = now;
-      setSelectedMonth(newMonth);
-      // Haptic feedback on change
-      if ('vibrate' in navigator) navigator.vibrate(10);
+    if (newMonth !== undefined) {
+      setSelectedMonth((prev) => {
+        if (prev !== newMonth) {
+          const now = Date.now();
+          if (now - lastVibrateRef.current > 40 && 'vibrate' in navigator) {
+            navigator.vibrate(10);
+            lastVibrateRef.current = now;
+          }
+          return newMonth;
+        }
+        return prev;
+      });
     }
   };
 
   const handleYearScroll = () => {
     if (!yearRef.current) return;
 
-    const now = Date.now();
-    if (now - lastUpdateRef.current < THROTTLE_MS) return;
-
     const scrollTop = yearRef.current.scrollTop;
     const index = Math.round(scrollTop / ITEM_HEIGHT);
     const clampedIndex = Math.max(0, Math.min(index, years.length - 1));
     const newYear = years[clampedIndex];
 
-    if (newYear !== undefined && newYear !== selectedYear) {
-      lastUpdateRef.current = now;
-      setSelectedYear(newYear);
-      if ('vibrate' in navigator) navigator.vibrate(10);
+    if (newYear !== undefined) {
+      setSelectedYear((prevYear) => {
+        if (prevYear !== newYear) {
+          const now = Date.now();
+          if (now - lastVibrateRef.current > 40 && 'vibrate' in navigator) {
+            navigator.vibrate(10);
+            lastVibrateRef.current = now;
+          }
 
-      const newAvailableMonths = getAvailableMonths(newYear);
-      if (!newAvailableMonths.includes(selectedMonth)) {
-        setSelectedMonth(newAvailableMonths[0] ?? 0);
-      }
+          // Safely cascade month availability without accessing stale selectedMonth
+          setSelectedMonth(currentMonth => {
+             const newlyAvailable = getAvailableMonths(newYear);
+             if (!newlyAvailable.includes(currentMonth)) {
+                return newlyAvailable[0] ?? 0;
+             }
+             return currentMonth;
+          });
+
+          return newYear;
+        }
+        return prevYear;
+      });
     }
   };
 

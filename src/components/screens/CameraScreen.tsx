@@ -875,7 +875,7 @@ export function CameraScreen({
       </header>
 
       {/* Main Content Area - Balanced between Header and Bottom Nav */}
-      <div className="flex-1 flex flex-col justify-between px-5 pb-20 overflow-hidden">
+      <div className="flex-1 flex flex-col justify-between px-5 pb-4 overflow-hidden">
         <div className={cn(
           "flex-1 flex flex-col items-center",
           (!cameraActive || capturedImage) ? "justify-center" : "justify-start pt-4"
