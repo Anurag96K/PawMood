@@ -124,13 +124,13 @@ export function StreakBadge({ count, totalRecords, shouldShowStreak, petName, cl
                     // First-time user - never saved before
                     <>
                         <span>📸</span>
-                        <span className="text-muted-foreground/80 font-bold">{firstTimeText}</span>
+                        <span className="text-muted-foreground/80 font-bold text-sm">{firstTimeText}</span>
                     </>
                 ) : (
                     // Returning user with broken streak (2+ days since last save)
                     <>
                         <span>📸</span>
-                        <span className="text-muted-foreground/80 font-bold">{returnText}</span>
+                        <span className="text-muted-foreground/80 font-bold text-sm">{returnText}</span>
                     </>
                 )}
             </div>

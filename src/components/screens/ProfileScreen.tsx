@@ -127,7 +127,7 @@ export function ProfileScreen({
 
 
   return (
-    <div className="h-full overflow-y-auto bg-background pb-24 overscroll-none">
+    <div className="h-full overflow-y-auto bg-background pb-24">
       {/* Header */}
       <header className="px-5 pt-10 pb-5">
         <h1 className="text-3xl font-extrabold text-foreground tracking-tight">{t("profileTitle")}</h1>
@@ -158,7 +158,7 @@ export function ProfileScreen({
                 setSettingsInitialSection("editProfile");
                 setShowSettings(true);
               }}
-              className="w-8 h-8 rounded-xl bg-muted/50 flex items-center justify-center hover:bg-accent transition-colors"
+              className="w-8 h-8 rounded-xl bg-muted/50 flex items-center justify-center active:bg-accent transition-colors"
             >
               <Settings className="w-3.5 h-3.5 text-muted-foreground" />
             </button>
@@ -206,7 +206,7 @@ export function ProfileScreen({
                   "active:scale-[0.97] will-change-transform",
                   billingCycle === "monthly"
                     ? "text-foreground"
-                    : "text-muted-foreground hover:text-foreground"
+                    : "text-muted-foreground"
                 )}
               >
                 {t("monthly")}
@@ -223,7 +223,7 @@ export function ProfileScreen({
                   "active:scale-[0.97] will-change-transform",
                   billingCycle === "yearly"
                     ? "text-foreground"
-                    : "text-muted-foreground hover:text-foreground"
+                    : "text-muted-foreground"
                 )}
               >
                 {t("yearly")}
@@ -547,7 +547,7 @@ export function ProfileScreen({
               key={item.label}
               onClick={item.action}
               className={cn(
-                "w-full flex items-center justify-between px-4 py-3.5 active:bg-muted/50 transition-colors",
+                "w-full flex items-center justify-between px-4 py-3.5 transition-colors",
                 index > 0 && "border-t border-border/50"
               )}
             >

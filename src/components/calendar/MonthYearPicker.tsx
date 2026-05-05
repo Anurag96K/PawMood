@@ -350,14 +350,14 @@ export function MonthYearPicker({
             <div className="flex border-t border-border/40">
               <button
                 onClick={onClose}
-                className="flex-1 py-2.5 text-sm text-muted-foreground active:bg-accent/30 active:scale-[0.98] transition-transform"
+                className="flex-1 py-2.5 text-sm text-muted-foreground transition-transform"
               >
                 Cancel
               </button>
               <div className="w-px bg-border/40" />
               <button
                 onClick={handleConfirm}
-                className="flex-1 py-2.5 text-sm font-medium text-primary active:bg-accent/30 active:scale-[0.98] transition-transform"
+                className="flex-1 py-2.5 text-sm font-medium text-primary transition-transform"
               >
                 Done
               </button>

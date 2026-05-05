@@ -140,7 +140,7 @@ export function SettingsPage({ onClose, onSignOut, currentPlan, onUpgrade, initi
         <button
           key={activeSection === "main" ? "close" : "back"}
           onClick={activeSection === "main" ? onClose : handleBack}
-          className="w-8 h-8 rounded-full bg-muted flex items-center justify-center active:bg-accent transition-colors"
+          className="w-8 h-8 rounded-full bg-muted flex items-center justify-center transition-colors"
         >
           <ArrowLeft className="w-4 h-4 text-foreground" />
         </button>
@@ -196,7 +196,7 @@ function MainSettingsMenu({
         <button
           key={item.id}
           onClick={() => onSelectSection(item.id)}
-          className="w-full flex items-center gap-3 p-3 bg-card rounded-xl border border-border active:bg-accent/50 transition-colors"
+          className="w-full flex items-center gap-3 p-3 bg-card rounded-xl border border-border transition-colors"
         >
           <div className="w-9 h-9 rounded-lg bg-accent flex items-center justify-center">
             <item.icon className="w-4 h-4 text-primary" />
@@ -212,7 +212,7 @@ function MainSettingsMenu({
       {/* Sign Out Button */}
       <button
         onClick={onSignOut}
-        className="w-full flex items-center gap-3 p-3 bg-card rounded-xl border border-border active:bg-accent/50 transition-colors mt-4"
+        className="w-full flex items-center gap-3 p-3 bg-card rounded-xl border border-border transition-colors mt-4"
       >
         <div className="w-9 h-9 rounded-lg bg-muted flex items-center justify-center">
           <LogOut className="w-4 h-4 text-muted-foreground" />
@@ -227,7 +227,7 @@ function MainSettingsMenu({
       {/* Delete Account Button */}
       <button
         onClick={onDeleteAccount}
-        className="w-full flex items-center gap-3 p-3 bg-destructive/5 rounded-xl border border-destructive/10 active:bg-destructive/10 transition-colors mt-1"
+        className="w-full flex items-center gap-3 p-3 bg-destructive/5 rounded-xl border border-destructive/10 transition-colors mt-1"
       >
         <div className="w-9 h-9 rounded-lg bg-destructive/10 flex items-center justify-center">
           <Trash2 className="w-4 h-4 text-destructive" />
@@ -347,7 +347,7 @@ function EditProfileSection({ onBack }: { onBack: () => void }) {
           <button
             onClick={handleAvatarClick}
             disabled={uploading}
-            className="w-16 h-16 rounded-full bg-accent flex items-center justify-center text-2xl overflow-hidden hover:ring-2 hover:ring-primary transition-all disabled:opacity-50"
+            className="w-16 h-16 rounded-full bg-accent flex items-center justify-center text-2xl overflow-hidden transition-all disabled:opacity-50"
           >
             {uploading ? (
               <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
@@ -360,7 +360,7 @@ function EditProfileSection({ onBack }: { onBack: () => void }) {
           <button
             onClick={handleAvatarClick}
             disabled={uploading}
-            className="absolute bottom-0 right-0 w-6 h-6 rounded-full bg-primary flex items-center justify-center shadow-lg hover:bg-primary/90 transition-colors disabled:opacity-50"
+            className="absolute bottom-0 right-0 w-6 h-6 rounded-full bg-primary flex items-center justify-center shadow-lg transition-colors disabled:opacity-50"
           >
             <Camera className="w-3 h-3 text-primary-foreground" />
           </button>
@@ -452,7 +452,7 @@ function LanguageSection({
             "w-full flex items-center gap-3 p-3 rounded-xl border transition-colors",
             currentLanguage === lang.code
               ? "bg-primary/10 border-primary"
-              : "bg-card border-border active:bg-accent/50"
+              : "bg-card border-border"
           )}
         >
           <span className="text-2xl">{lang.flag}</span>
@@ -531,7 +531,7 @@ function HelpSupportSection({ onBack }: { onBack: () => void }) {
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => window.location.href = "mailto:support@petmood.app"}
-            className="w-full flex items-center gap-3 p-2.5 bg-card rounded-xl border border-border active:bg-accent/50 transition-colors"
+            className="w-full flex items-center gap-3 p-2.5 bg-card rounded-xl border border-border transition-colors"
           >
             <Mail className="w-4 h-4 text-primary" />
             <span className="text-xs text-foreground">support@petmood.app</span>
