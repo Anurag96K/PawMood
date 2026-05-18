@@ -920,7 +920,7 @@ export function CameraScreen({
             // Camera viewfinder
             <div className="w-full">
               <ContentCard
-                className="mb-6 bg-white overflow-hidden min-h-[400px] border-none"
+                className="mb-6 bg-white overflow-hidden aspect-square w-full max-h-[55vh] border-none"
                 style={{
                   boxShadow: themeConfigs[settings.theme]?.shadow || themeConfigs.beige.shadow
                 }}

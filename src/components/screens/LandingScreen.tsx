@@ -8,7 +8,7 @@ interface LandingScreenProps {
 
 export function LandingScreen({ onGetStarted, onSignIn }: LandingScreenProps) {
     return (
-        <div className="h-screen bg-background flex flex-col items-center justify-between px-6 py-10">
+        <div className="h-screen flex flex-col items-center justify-between px-6 py-10" style={{ background: 'var(--gradient-peach)' }}>
             {/* Hero / Visual Area */}
             <div className="flex-1 flex items-center justify-center w-full">
                 <div className="text-center space-y-4">

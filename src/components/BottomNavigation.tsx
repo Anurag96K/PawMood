@@ -27,9 +27,9 @@ export function BottomNavigation({ activeTab, onTabChange }: BottomNavigationPro
   return (
     <nav
       className="relative w-full z-50 bg-background border-t border-border shrink-0"
-      style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+      style={{ paddingBottom: "max(env(safe-area-inset-bottom), 16px)" }}
     >
-      <div className="flex items-center justify-around px-1 py-2">
+      <div className="flex items-center justify-around px-1 pt-2">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;

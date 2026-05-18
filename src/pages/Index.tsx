@@ -460,7 +460,7 @@ function AppContent() {
   let content;
   if (viewState === "loading") {
     content = (
-      <div className="h-screen bg-background flex justify-center items-center">
+      <div className="h-screen flex justify-center items-center" style={{ background: 'var(--gradient-peach)' }}>
         <Loader2 className="w-8 h-8 animate-spin text-primary" />
       </div>
     );

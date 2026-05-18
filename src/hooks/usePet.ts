@@ -14,10 +14,22 @@ export interface Pet {
   updated_at: string;
 }
 
+const PET_CACHE_KEY = 'pawmood_pet_cache';
+
 export function usePet() {
   const { user } = useAuth();
-  const [pet, setPet] = useState<Pet | null>(null);
-  const [loading, setLoading] = useState(true);
+  
+  // Try to load initial state from cache to prevent flickering
+  const [pet, setPet] = useState<Pet | null>(() => {
+    try {
+      const cached = localStorage.getItem(PET_CACHE_KEY);
+      return cached ? JSON.parse(cached) : null;
+    } catch (e) {
+      return null;
+    }
+  });
+  
+  const [loading, setLoading] = useState(!pet); // Fast path if cached
   const [error, setError] = useState<string | null>(null);
 
   const fetchPet = useCallback(async () => {
@@ -40,7 +52,13 @@ export function usePet() {
         console.error("Error fetching pet:", fetchError);
         setError(fetchError.message);
       } else {
-        setPet(data as Pet | null);
+        const petData = data as Pet | null;
+        setPet(petData);
+        if (petData) {
+          localStorage.setItem(PET_CACHE_KEY, JSON.stringify(petData));
+        } else {
+          localStorage.removeItem(PET_CACHE_KEY);
+        }
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to fetch pet");
@@ -82,8 +100,10 @@ export function usePet() {
         return { error: insertError, data: null };
       }
 
-      setPet(data as Pet);
-      return { error: null, data: data as Pet };
+      const newPet = data as Pet;
+      setPet(newPet);
+      localStorage.setItem(PET_CACHE_KEY, JSON.stringify(newPet));
+      return { error: null, data: newPet };
     } catch (err) {
       return { error: { message: err instanceof Error ? err.message : "Failed to create pet" }, data: null };
     }
@@ -111,8 +131,10 @@ export function usePet() {
         return { error: updateError, data: null };
       }
 
-      setPet(data as Pet);
-      return { error: null, data: data as Pet };
+      const updatedPet = data as Pet;
+      setPet(updatedPet);
+      localStorage.setItem(PET_CACHE_KEY, JSON.stringify(updatedPet));
+      return { error: null, data: updatedPet };
     } catch (err) {
       return { error: { message: err instanceof Error ? err.message : "Failed to update pet" }, data: null };
     }

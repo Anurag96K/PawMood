@@ -729,6 +729,9 @@ export function CalendarScreen({ isPremium, isBasic = false, onUpgrade, onNaviga
 
   return (
     <div className={cn("h-full overflow-y-auto pb-24 relative flex flex-col", getThemeClasses())}>
+      {/* Overscroll background extension to match theme on iOS bounce */}
+      <div className={cn("absolute inset-x-0 -top-[100vh] -bottom-[100vh] -z-10 pointer-events-none", getThemeClasses())} />
+      
       {/* Birthday Theme Background - only background layer, no decorations/banner */}
       {isBirthday && <BirthdayThemeBackground />}
 
