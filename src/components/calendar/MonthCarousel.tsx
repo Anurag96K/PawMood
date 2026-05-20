@@ -447,7 +447,8 @@ export function MonthCarousel({
                           <div
                             key={`${year}-${month}-${index}`}
                             data-calendar-day-button={day ? "true" : undefined}
-                            className="pt-2 pb-0.5 px-1 flex items-center justify-center border-0"
+                            className="pt-0.5 pb-0 px-0.5 flex items-center justify-center border-0"
+                            style={{ zIndex: selectedDay === day ? 30 : 1 }}
                             onClick={(e) => {
                               const target = e.target as HTMLElement | null;
                               // If the actual inner day button handled the click, do nothing.

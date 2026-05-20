@@ -920,7 +920,7 @@ export function CameraScreen({
             // Camera viewfinder
             <div className="w-full">
               <ContentCard
-                className="mb-6 bg-white overflow-hidden aspect-square w-full max-h-[55vh] border-none"
+                className="mb-4 bg-white overflow-hidden aspect-square w-full max-h-[40vh] border-none"
                 style={{
                   boxShadow: themeConfigs[settings.theme]?.shadow || themeConfigs.beige.shadow
                 }}
@@ -976,7 +976,6 @@ export function CameraScreen({
                     Haptics.impact({ style: ImpactStyle.Heavy }).catch(() => {});
                     capturePhoto();
                   }}
-                  size="lg"
                   className="w-full shadow-warm-glow"
                 >
                   <Camera className="w-5 h-5" />
@@ -988,7 +987,6 @@ export function CameraScreen({
                     handleUploadFromGallery();
                   }}
                   variant="outline"
-                  size="lg"
                   className="w-full"
                 >
                   <ImagePlus className="w-5 h-5" />

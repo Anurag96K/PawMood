@@ -40,7 +40,6 @@ export function HomeMainView({
                         const target = e.currentTarget;
                         setTimeout(() => target.blur(), 700);
                     }}
-                    size="lg"
                     className="w-full shadow-warm-glow active:shadow-warm-glow active:brightness-110 transition-all duration-200 focus:ring-0 focus-visible:ring-0 focus:outline-none"
                 >
                     <Camera className="w-5 h-5" />
@@ -66,7 +65,6 @@ export function HomeMainView({
                         setTimeout(() => target.blur(), 700);
                     }}
                     variant="secondary"
-                    size="lg"
                     className="w-full active:scale-95 transition-all duration-200 focus:ring-0 focus-visible:ring-0 focus:outline-none"
                 >
                     <ImagePlus className="w-5 h-5" />

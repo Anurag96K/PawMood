@@ -120,7 +120,7 @@ export function CalendarDayCell({
 
   // Early return for empty day cells - AFTER all hooks
   if (day === null) {
-    return <div className="w-full aspect-square" />;
+    return <div className="w-full h-11" />;
   }
 
   const decoration = dateKey ? getDayDecoration(dateKey) : undefined;
@@ -164,7 +164,7 @@ export function CalendarDayCell({
 
   if (isDisabled) {
     return (
-      <div className="w-full aspect-square rounded-xl flex flex-col items-center justify-center relative">
+      <div className="w-full h-11 rounded-xl flex flex-col items-center justify-center relative">
         <div className="w-8 h-8 rounded-full border border-muted/15 flex-shrink-0 bg-muted/10" />
         <span className="text-[10px] text-muted-foreground/30 font-medium mt-0.5">
           {day}
@@ -233,7 +233,7 @@ export function CalendarDayCell({
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
       className={cn(
-        "w-full aspect-square rounded-xl flex flex-col items-center justify-center relative",
+        "w-full h-11 rounded-xl flex flex-col items-center justify-center relative",
         // Disable transitions during month slide for unified movement
         !isTransitioning && "transition-transform duration-200 ease-in-out",
         (isSelected || isPressed) && !isTransitioning && "scale-110",
