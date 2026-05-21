@@ -252,7 +252,7 @@ export function CalendarDayCell({
       <div
         ref={photoContainerRef}
         className={cn(
-          "relative w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center transition-all duration-300",
+          "relative w-[30px] h-[30px] rounded-full flex-shrink-0 flex items-center justify-center transition-all duration-300",
           // Empty day: pure white fill with soft gray border
           !hasEntries && !isToday && !isSelected && !isBirthday &&
           "border border-muted-foreground/20 bg-[#FFFFFF]",

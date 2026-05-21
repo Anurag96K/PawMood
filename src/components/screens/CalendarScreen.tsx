@@ -729,8 +729,8 @@ export function CalendarScreen({ isPremium, isBasic = false, onUpgrade, onNaviga
 
   return (
     <div className={cn("h-full overflow-y-auto pb-4 relative flex flex-col", getThemeClasses())}>
-      {/* Overscroll background extension to match theme on iOS bounce */}
-      <div className={cn("absolute inset-x-0 -top-[100vh] -bottom-[100vh] -z-10 pointer-events-none", getThemeClasses())} />
+      {/* Fixed background to cover overscroll on iOS bounce without adding scroll height */}
+      <div className={cn("fixed inset-0 -z-10 pointer-events-none", getThemeClasses())} />
       
       {/* Birthday Theme Background - only background layer, no decorations/banner */}
       {isBirthday && <BirthdayThemeBackground />}
@@ -747,14 +747,7 @@ export function CalendarScreen({ isPremium, isBasic = false, onUpgrade, onNaviga
       )}
       {/* Header - light ambient feel, part of the background */}
       <header className="relative px-5 pt-10 pb-5 z-10">
-        {/* Soft ambient glow behind header */}
-        <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-80 h-40 pointer-events-none"
-          style={{
-            background: "radial-gradient(circle at center, hsl(25 100% 70% / 0.1) 0%, transparent 70%)",
-            filter: "blur(40px)",
-          }}
-        />
+
 
         <div className="flex items-center justify-between">
           <div className="flex flex-col">

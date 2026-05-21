@@ -258,10 +258,10 @@ export function MonthCarousel({
         {/* Calendar Header - Month Navigation */}
         <div className="relative z-10 px-4 pt-4 pb-2 flex justify-center">
           <div
-            className="flex items-center justify-between rounded-2xl px-2 py-2.5 bg-secondary"
+            className="flex items-center justify-between rounded-full px-4 py-2"
             style={{
-              width: '88%',
-              boxShadow: "inset 0 1px 2px hsl(0 0% 100% / 0.5), inset 0 -1px 2px hsl(25 30% 40% / 0.03)"
+              width: '90%',
+              backgroundColor: '#FAF0E6',
             }}
           >
             {/* Left arrow - aligned to far left */}

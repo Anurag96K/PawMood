@@ -315,20 +315,32 @@ export function ReportScenes({ data, period, petName, onClose, isLoading = false
     useEffect(() => { elapsedRef.current = 0; }, [currentIndex]);
     useEffect(() => {
         if (isPaused || showSharePreview || currentIndex >= scenes.length) return;
-        const interval = 50;
-        const timer = setInterval(() => {
-            elapsedRef.current += interval;
-            setProgress((elapsedRef.current / scenes[currentIndex].duration) * 100);
-            if (elapsedRef.current >= scenes[currentIndex].duration) {
+        
+        let animationFrameId: number;
+        let lastTime = performance.now();
+        
+        const tick = (currentTime: number) => {
+            const deltaTime = currentTime - lastTime;
+            lastTime = currentTime;
+            
+            elapsedRef.current += deltaTime;
+            const newProgress = (elapsedRef.current / scenes[currentIndex].duration) * 100;
+            
+            if (newProgress >= 100) {
                 if (currentIndex < scenes.length - 1) {
                     setCurrentIndex(prev => prev + 1);
                     setProgress(0);
                     elapsedRef.current = 0;
                 }
-                clearInterval(timer);
+            } else {
+                setProgress(newProgress);
+                animationFrameId = requestAnimationFrame(tick);
             }
-        }, interval);
-        return () => clearInterval(timer);
+        };
+        
+        animationFrameId = requestAnimationFrame(tick);
+        
+        return () => cancelAnimationFrame(animationFrameId);
     }, [currentIndex, isPaused, showSharePreview, scenes.length]);
 
     const progressVisible = ["progress", "controls", "complete"].indexOf(entranceStage) >= 0;
@@ -350,7 +362,7 @@ export function ReportScenes({ data, period, petName, onClose, isLoading = false
                 </div>
             </div>
             <div className="relative h-full pt-28 pb-36 flex flex-col">
-                <div className="flex-1 flex items-center justify-center">
+                <div key={currentIndex} className="flex-1 flex items-center justify-center animate-in fade-in slide-in-from-bottom-2 duration-500 fill-mode-forwards">
                     {scenes[currentIndex].render()}
                 </div>
             </div>

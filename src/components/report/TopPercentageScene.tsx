@@ -97,7 +97,7 @@ export const TopPercentageScene = forwardRef<HTMLDivElement, TopPercentageSceneP
 
                 <div className="flex items-center justify-center w-full mb-2" style={{ minHeight: "72px" }}>
                     <div
-                        className="text-6xl font-bold text-primary text-center"
+                        className="text-5xl sm:text-6xl font-bold text-primary text-center"
                         style={{
                             opacity: percentageVisible ? 1 : 0,
                             transform: percentageVisible ? "scale(1)" : "scale(0.6)",
