@@ -851,30 +851,47 @@ export function CalendarScreen({ isPremium, isBasic = false, onUpgrade, onNaviga
         </>
       )}
 
-      {/* Empty State - compact card, only shows when today has no entry */}
-      {!loading && isCurrentMonth && !hasTodayEntry && onNavigateToCamera && (
-        <div className="px-4 mt-6 relative z-10">
-          <div
-            className="bg-card rounded-3xl px-4 py-[11px] border border-border/40"
-            style={{
-              boxShadow: getCalendarShadow(),
-              backgroundColor: settings.calendarCardBackground && calendarCardBackgroundConfigs[settings.calendarCardBackground]
-                ? `hsl(${calendarCardBackgroundConfigs[settings.calendarCardBackground].hsl})`
-                : undefined
-            }}
-          >
-            <div className="flex items-center justify-between gap-3">
-              <p className="text-sm font-medium text-foreground">No memories yet today... 💕</p>
-              <Button
-                onClick={onNavigateToCamera}
-                size="sm"
-                className="h-[30px] px-3 text-xs rounded-lg flex-shrink-0 gap-1.5 min-h-0"
-              >
-                <Camera className="w-3.5 h-3.5" />
-                Take photo
-              </Button>
+      {/* Empty State - shows when no entries exist for the selected date or today */}
+      {!loading && (
+        <div className="px-4 mt-6 pb-32 relative z-10">
+          {/* Always show empty state if no entries. If today, show Take Photo button. Otherwise, just show message. */}
+          {(!hasTodayEntry && isCurrentMonth) ? (
+            <div
+              className="bg-card rounded-3xl px-4 py-[11px] border border-border/40"
+              style={{
+                boxShadow: getCalendarShadow(),
+                backgroundColor: settings.calendarCardBackground && calendarCardBackgroundConfigs[settings.calendarCardBackground]
+                  ? `hsl(${calendarCardBackgroundConfigs[settings.calendarCardBackground].hsl})`
+                  : undefined
+              }}
+            >
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-sm font-medium text-foreground">No memories yet today... 💕</p>
+                {onNavigateToCamera && (
+                  <Button
+                    onClick={onNavigateToCamera}
+                    size="sm"
+                    className="h-[30px] px-3 text-xs rounded-lg flex-shrink-0 gap-1.5 min-h-0"
+                  >
+                    <Camera className="w-3.5 h-3.5" />
+                    Take photo
+                  </Button>
+                )}
+              </div>
             </div>
-          </div>
+          ) : !isCurrentMonth && monthEntries.length === 0 ? (
+            <div
+              className="bg-card rounded-3xl px-4 py-[15px] border border-border/40 flex justify-center"
+              style={{
+                boxShadow: getCalendarShadow(),
+                backgroundColor: settings.calendarCardBackground && calendarCardBackgroundConfigs[settings.calendarCardBackground]
+                  ? `hsl(${calendarCardBackgroundConfigs[settings.calendarCardBackground].hsl})`
+                  : undefined
+              }}
+            >
+              <p className="text-sm font-medium text-foreground">No memories this month... 💕</p>
+            </div>
+          ) : null}
         </div>
       )}
 

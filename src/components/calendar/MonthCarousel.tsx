@@ -373,63 +373,6 @@ export function MonthCarousel({
 
                 return (
                   <div className="relative overflow-hidden">
-                    {/* Simple Outer Boundary - frames only the date area cleanly without step logic */}
-                    <div
-                      className="absolute inset-0 pointer-events-none rounded-[8px] border-[0.5px] border-black/5"
-                      style={{
-                        zIndex: 2,
-                        top: `${firstRowWithDate * cellHeight}%`,
-                        bottom: `${(rowCount - lastRowWithDate - 1) * cellHeight}%`,
-                        left: 0,
-                        right: 0,
-                      }}
-                      aria-hidden="true"
-                    />
-
-                    {/* Internal grid lines overlay - sits behind content, clipped to bounds */}
-                    <div
-                      className="absolute inset-0 pointer-events-none overflow-hidden rounded-[8px]"
-                      style={{ zIndex: 0 }}
-                      aria-hidden="true"
-                    >
-                      {/* Internal vertical lines */}
-                      {[1, 2, 3, 4, 5, 6].map((colIndex) => {
-                        return (
-                          <div
-                            key={`v-${colIndex}`}
-                            className="absolute"
-                            style={{
-                              left: `${colIndex * cellWidth}%`,
-                              top: `${firstRowWithDate * cellHeight}%`,
-                              bottom: `${(rowCount - lastRowWithDate - 1) * cellHeight}%`,
-                              width: '1px',
-                              background: 'rgba(0, 0, 0, 0.05)',
-                            }}
-                          />
-                        );
-                      })}
-
-                      {/* Internal horizontal lines */}
-                      {Array.from({ length: rowCount - 1 }, (_, rowIdx) => rowIdx + 1).map((rowIndex) => {
-                        // Only draw if within bounds of the month's rows
-                        if (rowIndex <= firstRowWithDate || rowIndex > lastRowWithDate) return null;
-                        
-                        return (
-                          <div
-                            key={`h-${rowIndex}`}
-                            className="absolute"
-                            style={{
-                              top: `${rowIndex * cellHeight}%`,
-                              left: 0,
-                              right: 0,
-                              height: '1px',
-                              background: 'rgba(0, 0, 0, 0.05)',
-                            }}
-                          />
-                        );
-                      })}
-                    </div>
-
                     {/* Calendar cells - above grid lines */}
                     <div
                       className="relative grid grid-cols-7"

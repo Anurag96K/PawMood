@@ -878,7 +878,7 @@ export function CameraScreen({
       <div className="flex-1 flex flex-col justify-between px-5 pb-4 overflow-hidden">
         <div className={cn(
           "flex-1 flex flex-col items-center",
-          (!cameraActive || capturedImage) ? "justify-center" : "justify-start pt-4"
+          (!cameraActive || capturedImage) ? "justify-center" : "justify-start pt-0"
         )}>
           {/* Permission denied state */}
           {permissionDenied && !capturedImage ? (
@@ -920,7 +920,7 @@ export function CameraScreen({
             // Camera viewfinder
             <div className="w-full">
               <ContentCard
-                className="mb-4 bg-white overflow-hidden aspect-square w-full max-h-[50vh] border-none"
+                className="mb-4 bg-white overflow-hidden aspect-square w-full max-h-[44vh] border-none"
                 style={{
                   boxShadow: themeConfigs[settings.theme]?.shadow || themeConfigs.beige.shadow
                 }}
