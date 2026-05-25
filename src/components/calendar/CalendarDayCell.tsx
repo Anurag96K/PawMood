@@ -120,7 +120,7 @@ export function CalendarDayCell({
 
   // Early return for empty day cells - AFTER all hooks
   if (day === null) {
-    return <div className="w-full h-9" />;
+    return <div className="w-full h-[40px]" />;
   }
 
   const decoration = dateKey ? getDayDecoration(dateKey) : undefined;
@@ -164,9 +164,9 @@ export function CalendarDayCell({
 
   if (isDisabled) {
     return (
-      <div className="w-full h-9 rounded-xl flex flex-col items-center justify-center relative">
-        <div className="w-7 h-7 rounded-full border border-muted/15 flex-shrink-0 bg-muted/10" />
-        <span className="text-[10px] text-muted-foreground/30 font-medium mt-0.5">
+      <div className="w-full h-[40px] rounded-xl flex flex-col items-center justify-center relative">
+        <div className="w-6 h-6 rounded-full border border-muted/15 flex-shrink-0 bg-muted/10" />
+        <span className="text-[9px] leading-none text-muted-foreground/30 font-medium mt-0">
           {day}
         </span>
       </div>
@@ -233,7 +233,7 @@ export function CalendarDayCell({
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
       className={cn(
-        "w-full h-9 rounded-xl flex flex-col items-center justify-center relative",
+        "w-full h-[40px] rounded-xl flex flex-col items-center justify-center relative",
         // Disable transitions during month slide for unified movement
         !isTransitioning && "transition-transform duration-200 ease-in-out",
         (isSelected || isPressed) && !isTransitioning && "scale-110",
@@ -252,7 +252,7 @@ export function CalendarDayCell({
       <div
         ref={photoContainerRef}
         className={cn(
-          "relative w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center transition-all duration-300",
+          "relative w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center transition-all duration-300",
           // Empty day: pure white fill with soft gray border
           !hasEntries && !isToday && !isSelected && !isBirthday &&
           "border border-muted-foreground/20 bg-[#FFFFFF]",
@@ -330,12 +330,12 @@ export function CalendarDayCell({
       )}
 
       {/* Date number with cake emojis on both sides for birthday */}
-      <div className="flex items-center justify-center gap-0.5 mt-0.5 flex-shrink-0">
+      <div className="flex items-center justify-center gap-0.5 mt-0 flex-shrink-0">
         {isBirthday && (
           <span className="text-[11px] leading-none animate-bounce" style={{ animationDuration: '2s' }}>🎂</span>
         )}
         <span className={cn(
-          "text-[9.5px] font-semibold", // Slightly larger
+          "text-[9px] leading-none font-semibold", // Smaller and leading-none to prevent height overflow
           hasEntries ? "text-black" : "text-muted-foreground",
           // Today stays highlighted even when selected
           isToday && !isBirthday && "text-primary font-bold",
