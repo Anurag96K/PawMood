@@ -302,7 +302,8 @@ export function MonthYearPicker({
                   paddingTop: `${(VISIBLE_ITEMS - 1) / 2 * ITEM_HEIGHT}px`,
                   paddingBottom: `${(VISIBLE_ITEMS - 1) / 2 * ITEM_HEIGHT}px`,
                   overscrollBehavior: "contain",
-                  WebkitOverflowScrolling: "touch"
+                  WebkitOverflowScrolling: "touch",
+                  touchAction: "pan-y"
                 }}
               >
                 {availableMonths.map((monthIndex) => (
@@ -329,7 +330,8 @@ export function MonthYearPicker({
                   paddingTop: `${(VISIBLE_ITEMS - 1) / 2 * ITEM_HEIGHT}px`,
                   paddingBottom: `${(VISIBLE_ITEMS - 1) / 2 * ITEM_HEIGHT}px`,
                   overscrollBehavior: "contain",
-                  WebkitOverflowScrolling: "touch"
+                  WebkitOverflowScrolling: "touch",
+                  touchAction: "pan-y"
                 }}
               >
                 {years.map((year) => (

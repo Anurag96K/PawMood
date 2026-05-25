@@ -375,7 +375,7 @@ export function MonthCarousel({
                   <div className="relative overflow-hidden">
                     {/* Simple Outer Boundary - frames only the date area cleanly without step logic */}
                     <div
-                      className="absolute inset-0 pointer-events-none rounded-[8px]"
+                      className="absolute inset-0 pointer-events-none rounded-[8px] border-[0.5px] border-black/5"
                       style={{
                         zIndex: 2,
                         top: `${firstRowWithDate * cellHeight}%`,
