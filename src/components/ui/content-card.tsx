@@ -42,10 +42,10 @@ export function ContentCard({
 export function ContentCardCorners({ className }: { className?: string }) {
     return (
         <div className={cn("absolute inset-0 pointer-events-none", className)}>
-            <div className="absolute top-4 left-4 w-10 h-10 border-l-[3px] border-t-[3px] border-primary/25 rounded-tl-2xl" />
-            <div className="absolute top-4 right-4 w-10 h-10 border-r-[3px] border-t-[3px] border-primary/25 rounded-tr-2xl" />
-            <div className="absolute bottom-4 left-4 w-10 h-10 border-l-[3px] border-b-[3px] border-primary/25 rounded-bl-2xl" />
-            <div className="absolute bottom-4 right-4 w-10 h-10 border-r-[3px] border-b-[3px] border-primary/25 rounded-br-2xl" />
+            <div className="absolute top-4 left-4 w-8 h-8 border-l-[3px] border-t-[3px] border-primary/25 rounded-tl-[12px]" />
+            <div className="absolute top-4 right-4 w-8 h-8 border-r-[3px] border-t-[3px] border-primary/25 rounded-tr-[12px]" />
+            <div className="absolute bottom-4 left-4 w-8 h-8 border-l-[3px] border-b-[3px] border-primary/25 rounded-bl-[12px]" />
+            <div className="absolute bottom-4 right-4 w-8 h-8 border-r-[3px] border-b-[3px] border-primary/25 rounded-br-[12px]" />
         </div>
     );
 }

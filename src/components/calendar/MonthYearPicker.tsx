@@ -317,7 +317,7 @@ export function MonthYearPicker({
                   <div
                     key={monthIndex}
                     className={cn(
-                      "w-full h-9 flex items-center justify-center snap-center transition-opacity duration-150 select-none",
+                      "w-full h-9 flex items-center justify-center snap-center snap-always transition-opacity duration-150 select-none",
                       selectedMonth === monthIndex
                         ? "text-foreground font-bold text-sm"
                         : "text-muted-foreground text-sm opacity-40"
@@ -345,7 +345,7 @@ export function MonthYearPicker({
                   <div
                     key={year}
                     className={cn(
-                      "w-full h-9 flex items-center justify-center snap-center transition-opacity duration-150 select-none",
+                      "w-full h-9 flex items-center justify-center snap-center snap-always transition-opacity duration-150 select-none",
                       selectedYear === year
                         ? "text-foreground font-bold text-sm"
                         : "text-muted-foreground text-sm opacity-40"

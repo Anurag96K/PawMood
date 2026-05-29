@@ -865,8 +865,8 @@ export function CalendarScreen({ isPremium, isBasic = false, onUpgrade, onNaviga
                   : undefined
               }}
             >
-              <div className="flex items-center justify-between gap-3">
-                <p className="text-sm font-medium text-foreground">No memories yet today... 💕</p>
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-[13px] font-medium text-foreground truncate mr-2">No memories today 💕</p>
                 {onNavigateToCamera && (
                   <Button
                     onClick={onNavigateToCamera}
@@ -889,7 +889,7 @@ export function CalendarScreen({ isPremium, isBasic = false, onUpgrade, onNaviga
                   : undefined
               }}
             >
-              <p className="text-sm font-medium text-foreground">No memories this month... 💕</p>
+              <p className="text-[13px] font-medium text-foreground">No memories this month 💕</p>
             </div>
           ) : null}
         </div>
