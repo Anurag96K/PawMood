@@ -234,8 +234,6 @@ export function CalendarDayCell({
       onTouchEnd={handleTouchEnd}
       className={cn(
         "w-full h-[40px] rounded-xl flex flex-col items-center justify-center relative",
-        // Add subtle grid borders to valid days only
-        "border-b border-r border-black/5",
         // Disable transitions during month slide for unified movement
         !isTransitioning && "transition-transform duration-200 ease-in-out",
         (isSelected || isPressed) && !isTransitioning && "scale-110",
