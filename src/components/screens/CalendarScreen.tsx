@@ -453,7 +453,8 @@ export function CalendarScreen({ isPremium, isBasic = false, onUpgrade, onNaviga
 
   const signupDate = useMemo(() => {
     if (!profile?.created_at) return null;
-    return new Date(profile.created_at);
+    const date = new Date(profile.created_at);
+    return isNaN(date.getTime()) ? null : date;
   }, [profile?.created_at]);
 
   const signupDateForPicker = useMemo(() => signupDate ?? new Date(1970, 0, 1), [signupDate]);
@@ -803,12 +804,12 @@ export function CalendarScreen({ isPremium, isBasic = false, onUpgrade, onNaviga
               <div
                 ref={calendarCardRef}
                 className={cn(
-                  "relative z-10 rounded-3xl overflow-hidden ring-1 ring-border/40",
+                  "relative z-10 rounded-[32px] overflow-hidden ring-1 ring-border/40",
                   isLocked && "opacity-70 pointer-events-none"
                 )}
                 style={{
                   boxShadow: getCalendarShadow(),
-                  backgroundColor: `hsl(${calendarCardBackgroundConfigs[settings.calendarCardBackground || 'white'].hsl})`,
+                  backgroundColor: `hsl(${calendarCardBackgroundConfigs[settings.calendarCardBackground || 'white']?.hsl || "0 0% 100%"})`,
                   filter: isLocked ? "blur(1px)" : undefined,
                 }}
               >

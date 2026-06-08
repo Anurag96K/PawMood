@@ -24,6 +24,7 @@ interface CalendarDayCellProps {
   onLongPress?: () => void;
   dateKey?: string;
   isTransitioning?: boolean;
+  isAdjacentMonth?: boolean;
 }
 
 export function CalendarDayCell({
@@ -39,6 +40,7 @@ export function CalendarDayCell({
   onLongPress,
   dateKey,
   isTransitioning = false,
+  isAdjacentMonth = false,
 }: CalendarDayCellProps) {
   const { settings, getDayDecoration } = useCalendarDecoration();
   const { getUnreadCountForDate } = useBadge();
@@ -121,6 +123,20 @@ export function CalendarDayCell({
   // Early return for empty day cells - AFTER all hooks
   if (day === null) {
     return <div className="w-full h-[40px]" />;
+  }
+
+  if (isAdjacentMonth) {
+    return (
+      <button
+        onClick={onClick}
+        className="w-full h-[40px] rounded-xl flex flex-col items-center justify-center relative opacity-30 hover:opacity-50 transition-opacity"
+      >
+        <div className="w-6 h-6 rounded-full border border-muted-foreground/10 bg-transparent flex-shrink-0" />
+        <span className="text-[9px] leading-none text-muted-foreground font-semibold mt-1">
+          {day}
+        </span>
+      </button>
+    );
   }
 
   const decoration = dateKey ? getDayDecoration(dateKey) : undefined;
@@ -360,7 +376,10 @@ export function CalendarDayCell({
       {(() => {
         if (!dateKey) return null;
         // Parse dateKey (YYYY-MM-DD) to Date object
-        const [y, m, d] = dateKey.split('-').map(Number);
+        const parts = dateKey.split('-');
+        if (parts.length < 3) return null;
+        const [y, m, d] = parts.map(Number);
+        if (isNaN(y) || isNaN(m) || isNaN(d)) return null;
         const cellDate = new Date(y, m - 1, d);
 
         const unreadCount = getUnreadCountForDate(cellDate);
@@ -389,7 +408,14 @@ export function CalendarDayCell({
       })()}
 
       {/* Multiple entries badge (+N) - Unified vibrant orange alert style */}
-      {additionalCount > 0 && !(dateKey && getUnreadCountForDate(new Date(dateKey.split('-').map(Number)[0], dateKey.split('-').map(Number)[1] - 1, dateKey.split('-').map(Number)[2])) > 0) && (() => {
+      {additionalCount > 0 && (() => {
+        if (!dateKey) return false;
+        const parts = dateKey.split('-');
+        if (parts.length < 3) return false;
+        const [y, m, d] = parts.map(Number);
+        if (isNaN(y) || isNaN(m) || isNaN(d)) return false;
+        return getUnreadCountForDate(new Date(y, m - 1, d)) === 0;
+      })() && (() => {
         const isTwoDigit = additionalCount >= 10;
         const displayCount = additionalCount > 99 ? "+99" : `+${additionalCount}`;
         return (

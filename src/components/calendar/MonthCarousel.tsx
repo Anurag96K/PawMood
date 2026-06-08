@@ -140,6 +140,13 @@ export function MonthCarousel({
 
     // Actual days of the month
     for (let i = 1; i <= daysInMonth; i++) days.push(i);
+
+    // Trailing empty cells to complete rows (multiple of 7)
+    const totalCells = days.length;
+    const targetLength = totalCells <= 35 ? 35 : 42;
+    const remainingCells = targetLength - totalCells;
+    for (let i = 0; i < remainingCells; i++) days.push(null);
+
     return {
       year: yearVal,
       month: monthVal,
@@ -234,7 +241,7 @@ export function MonthCarousel({
 
   return <div className="relative">
     {/* Unified Calendar Card - single card surface (shadow is applied on the outer wrapper) */}
-    <div className="rounded-[28px] overflow-hidden relative" style={{
+    <div className="rounded-[32px] overflow-hidden relative" style={{
       backgroundColor: cardBackgroundColor
     }}>
       {/* Scale/opacity animation is applied ONLY to inner content to avoid shadow edge artifacts */}
@@ -250,6 +257,7 @@ export function MonthCarousel({
         )}
         style={{
           backgroundColor: cardBackgroundColor,
+          borderRadius: '32px',
         }}
       >
         {/* Background pattern overlay */}
@@ -347,50 +355,24 @@ export function MonthCarousel({
               }}
             >
               {(() => {
-                // Calculate grid structure
-                const firstDayIndex = currentMonthData.days.findIndex(d => d !== null);
-                const lastDayIndex = currentMonthData.days.length - 1;
-                const totalCells = currentMonthData.days.length;
-                const rowCount = Math.ceil(totalCells / 7);
-                const cellWidth = 100 / 7; // percentage width per cell
-                const cellHeight = 100 / rowCount; // percentage height per row
-
-                // Find first row with dates and last row with dates
-                const firstRowWithDate = Math.floor(firstDayIndex / 7);
-                const lastRowWithDate = Math.floor(lastDayIndex / 7);
-
-                // For each column, find if it has any date cells
-                const getColumnHasDateInRow = (col: number, row: number) => {
-                  const index = row * 7 + col;
-                  return index < totalCells && currentMonthData.days[index] !== null;
-                };
-
-                // First date column (e.g., Thursday = 4 for Jan 2025)
-                const firstDateColumn = firstDayIndex % 7;
-
-                // Last date column in the last row
-                const lastDateColumn = lastDayIndex % 7;
-
                 return (
                   <div className="relative overflow-hidden">
                     {/* Calendar cells - above grid lines */}
                     <div
-                      className="relative grid grid-cols-7 border-t border-l border-black/5"
+                      className="relative grid grid-cols-7"
                       style={{ zIndex: 1 }}
                     >
                       {currentMonthData.days.map((day, index) => {
                         const birthday = day ? isBirthdayDate(day) : false;
 
-                        // Group entries for this day using pre-calced logic if possible
-                        // Optimally we'd have a Map<day, entries[]>
-                        // But here we filter per cell (acceptable for <31 items)
+                        // Group entries for this day
                         const dayEntries = day ? getEntriesForDay(day) : [];
 
                         return (
                           <div
                             key={`${year}-${month}-${index}`}
                             data-calendar-day-button={day ? "true" : undefined}
-                            className="pt-0.5 pb-0 px-0.5 flex items-center justify-center border-b border-r border-black/5"
+                            className="pt-0.5 pb-0 px-0.5 flex items-center justify-center"
                             style={{ zIndex: selectedDay === day ? 30 : 1 }}
                             onClick={(e) => {
                               const target = e.target as HTMLElement | null;

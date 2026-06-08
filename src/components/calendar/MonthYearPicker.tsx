@@ -46,13 +46,13 @@ export function MonthYearPicker({
   });
   const [isPositioned, setIsPositioned] = useState(false);
 
-  const signupYear = signupDate.getFullYear();
-  const signupMonth = signupDate.getMonth();
+  const signupYear = isNaN(signupDate.getTime()) ? 1970 : signupDate.getFullYear();
+  const signupMonth = isNaN(signupDate.getTime()) ? 0 : signupDate.getMonth();
   const currentYear = new Date().getFullYear();
 
   const years = Array.from(
-    { length: Math.max(1, 2026 - signupYear + 1) },
-    (_, i) => signupYear + i
+    { length: Math.max(1, (isNaN(signupYear) ? 2026 : 2026 - signupYear) + 1) },
+    (_, i) => (isNaN(signupYear) ? 1970 : signupYear) + i
   );
 
   const getAvailableMonths = useCallback((year: number) => {

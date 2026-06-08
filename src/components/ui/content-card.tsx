@@ -18,19 +18,33 @@ export function ContentCard({
     aspectSquare = true,
     style
 }: ContentCardProps) {
+    const shadowStyle = style?.boxShadow || '0 4px 24px rgba(255, 200, 170, 0.15), 0 2px 8px rgba(255, 180, 150, 0.08)';
+    
+    // Check if custom bg class is provided, otherwise use bg-card
+    const hasBgClass = className && /\bbg-/.test(className);
+    const hasBorderClass = className && /\bborder-/.test(className);
+
     return (
         <div
             className={cn(
-                "relative w-full rounded-3xl bg-card overflow-hidden border border-border/50",
+                "relative w-full rounded-3xl",
                 aspectSquare && "aspect-square",
+                !hasBgClass && "bg-card", // Set bg-card on parent so shadow/corners blend perfectly
                 className
             )}
             style={{
-                boxShadow: style?.boxShadow || '0 4px 24px rgba(255, 200, 170, 0.15), 0 2px 8px rgba(255, 180, 150, 0.08)',
-                ...style
+                boxShadow: shadowStyle,
+                ...style,
             }}
         >
-            {children}
+            <div 
+                className={cn(
+                    "w-full h-full rounded-3xl overflow-hidden bg-inherit",
+                    !hasBorderClass && "border border-border/50"
+                )}
+            >
+                {children}
+            </div>
         </div>
     );
 }
@@ -40,12 +54,6 @@ export function ContentCard({
  * Pass className to override border color (e.g., "border-background/60")
  */
 export function ContentCardCorners({ className }: { className?: string }) {
-    return (
-        <div className={cn("absolute inset-0 pointer-events-none", className)}>
-            <div className="absolute top-4 left-4 w-8 h-8 border-l-[3px] border-t-[3px] border-primary/25 rounded-tl-[12px]" />
-            <div className="absolute top-4 right-4 w-8 h-8 border-r-[3px] border-t-[3px] border-primary/25 rounded-tr-[12px]" />
-            <div className="absolute bottom-4 left-4 w-8 h-8 border-l-[3px] border-b-[3px] border-primary/25 rounded-bl-[12px]" />
-            <div className="absolute bottom-4 right-4 w-8 h-8 border-r-[3px] border-b-[3px] border-primary/25 rounded-br-[12px]" />
-        </div>
-    );
+    // Disabled decorative corner brackets as requested by the user
+    return null;
 }
