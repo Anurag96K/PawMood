@@ -52,6 +52,16 @@ function AppContent() {
   // State
   const [viewState, setViewState] = useState<ViewState>("loading");
   const [activeTab, setActiveTab] = useState<TabId>("camera");
+  const [initialLoadTimedOut, setInitialLoadTimedOut] = useState(false);
+
+  // Initial loading fallback timeout to prevent infinite spinner on network or SDK hangs
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      console.warn("[Index] Initial loading safety timeout triggered");
+      setInitialLoadTimedOut(true);
+    }, 5000); // 5 seconds safety threshold
+    return () => clearTimeout(timer);
+  }, []);
   const [showAuthDrawer, setShowAuthDrawer] = useState(false);
   const [authMode, setAuthMode] = useState<"signin" | "signup">("signin");
   const [showBirthdayModal, setShowBirthdayModal] = useState(false);
@@ -231,13 +241,13 @@ function AppContent() {
     }
 
     // If we are already in the app and auth is loading (re-checking), don't show full screen loader
-    if (authLoading && viewState !== "app" && viewState !== "onboarding") {
+    if (authLoading && !initialLoadTimedOut && viewState !== "app" && viewState !== "onboarding") {
       setViewState("loading");
       return;
     }
 
     if (isAuthenticated) {
-      if (petLoading && viewState !== "app" && viewState !== "onboarding") {
+      if (petLoading && !initialLoadTimedOut && viewState !== "app" && viewState !== "onboarding") {
         setViewState("loading");
       } else if (hasPet) {
         // Sync local storage for returning users
@@ -260,7 +270,7 @@ function AppContent() {
     }
 
     // Not authenticated
-    if (!authLoading && !isAuthenticated) {
+    if ((!authLoading || initialLoadTimedOut) && !isAuthenticated) {
       // If we see tokens in the URL, stay on loading (the timeout above will catch failures)
       if (hasHashTokens || hasQueryTokens) {
         setViewState("loading");
@@ -279,7 +289,7 @@ function AppContent() {
         setViewState("landing");
       }
     }
-  }, [authLoading, isAuthenticated, petLoading, hasPet, hasCompletedOnboarding, viewState]);
+  }, [authLoading, isAuthenticated, petLoading, hasPet, hasCompletedOnboarding, viewState, initialLoadTimedOut]);
 
   // Enforce Paywall for Free Users (Mandatory)
   // Enforce Paywall for Free Users (Mandatory) - REMOVED

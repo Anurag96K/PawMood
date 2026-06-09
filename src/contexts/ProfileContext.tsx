@@ -50,6 +50,9 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUserId(session?.user?.id ?? null);
+    }).catch(err => {
+      console.error("ProfileContext: getSession error:", err);
+      setUserId(null);
     });
 
     const {

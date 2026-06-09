@@ -112,6 +112,9 @@ export function useAuth() {
         RevenueCatService.identify(session.user.id);
       }
       setLoading(false);
+    }).catch(err => {
+      console.error("[useAuth] getSession unhandled rejection:", err);
+      setLoading(false);
     });
 
     return () => subscription.unsubscribe();
