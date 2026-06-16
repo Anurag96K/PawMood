@@ -359,7 +359,7 @@ export function MonthCarousel({
                   <div className="relative overflow-hidden">
                     {/* Calendar cells - above grid lines */}
                     <div
-                      className="relative grid grid-cols-7"
+                      className="relative grid grid-cols-7 border-t border-l border-black/5"
                       style={{ zIndex: 1 }}
                     >
                       {currentMonthData.days.map((day, index) => {
@@ -372,7 +372,7 @@ export function MonthCarousel({
                           <div
                             key={`${year}-${month}-${index}`}
                             data-calendar-day-button={day ? "true" : undefined}
-                            className="pt-0.5 pb-0 px-0.5 flex items-center justify-center"
+                            className="pt-0.5 pb-0 px-0.5 flex items-center justify-center border-b border-r border-black/5"
                             style={{ zIndex: selectedDay === day ? 30 : 1 }}
                             onClick={(e) => {
                               const target = e.target as HTMLElement | null;
