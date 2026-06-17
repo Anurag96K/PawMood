@@ -354,64 +354,266 @@ export function MonthCarousel({
                 ease: [0.22, 0.9, 0.36, 1]
               }}
             >
-              {(() => {
-                return (
-                  <div className="relative overflow-hidden">
-                    {/* Calendar cells - above grid lines */}
-                    <div
-                      className="relative grid grid-cols-7 border-t border-l border-black/5"
-                      style={{ zIndex: 1 }}
-                    >
-                      {currentMonthData.days.map((day, index) => {
-                        const birthday = day ? isBirthdayDate(day) : false;
+          {(() => {
+            // Calculate grid structure
+            const firstDayIndex = currentMonthData.days.findIndex(d => d !== null);
+            const lastActualDayIndex = currentMonthData.days.reduce((acc, d, idx) => d !== null ? idx : acc, -1);
+            const totalCells = currentMonthData.days.length;
+            const rowCount = Math.ceil(totalCells / 7);
+            const cellWidth = 100 / 7; // percentage width per cell
+            const cellHeight = 100 / rowCount; // percentage height per row
+            
+            // For each column, find if it has any date cells
+            const getColumnHasDateInRow = (col: number, row: number) => {
+              const index = row * 7 + col;
+              return index < totalCells && currentMonthData.days[index] !== null;
+            };
+            
+            // First date column (e.g., Thursday = 4 for Jan 2025)
+            const firstDateColumn = firstDayIndex % 7;
+            
+            // Last date column in the last row containing dates
+            const lastDateColumn = lastActualDayIndex % 7;
 
-                        // Group entries for this day
-                        const dayEntries = day ? getEntriesForDay(day) : [];
+            // Generate precise SVG path outlining active days
+            const getBorderPath = (firstCol: number, lastCol: number, rows: number) => {
+              const cellW = 100;
+              const cellH = 100;
+              const W = 700;
+              const H = rows * 100;
+              
+              // Inset by 0.5px to keep stroke perfectly inside boundaries (no clipping)
+              const inset = 0.5;
+              const R = 8; // Corner radius in SVG units
 
-                        return (
-                          <div
-                            key={`${year}-${month}-${index}`}
-                            data-calendar-day-button={day ? "true" : undefined}
-                            className="pt-0.5 pb-0 px-0.5 flex items-center justify-center border-b border-r border-black/5"
-                            style={{ zIndex: selectedDay === day ? 30 : 1 }}
-                            onClick={(e) => {
-                              const target = e.target as HTMLElement | null;
-                              // If the actual inner day button handled the click, do nothing.
-                              if (target?.closest('button[data-calendar-day-button="true"]')) return;
-                              if (day && !isDayDisabled(day)) {
-                                onDayClick(day);
-                              }
-                            }}
-                          >
-                            <CalendarDayCell
-                              day={day}
-                              entries={dayEntries}
-                              isSelected={selectedDay === day}
-                              isHighlighted={day ? highlightedDays.has(day) : false}
-                              isDisabled={day ? isDayDisabled(day) : false}
-                              isToday={day ? isToday(day) : false}
-                              isBirthday={birthday}
-                              unreadCount={day ? getUnreadCountForDate(new Date(year, month, day)) : 0}
-                              onClick={() => {
-                                if (day && !isDayDisabled(day)) {
-                                  onDayClick(day);
-                                }
-                              }}
-                              onLongPress={() => {
-                                if (day && !isDayDisabled(day)) {
-                                  onDayLongPress(day);
-                                }
-                              }}
-                              dateKey={day ? getDateKey(day) : undefined}
-                              isTransitioning={isAnimating}
-                            />
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })()}
+              const left = inset;
+              const right = W - inset;
+              const top = inset;
+              const bottom = H - inset;
+
+              const getX = (col: number) => {
+                if (col === 0) return left;
+                if (col === 7) return right;
+                return col * cellW;
+              };
+
+              const getY = (row: number) => {
+                if (row === 0) return top;
+                if (row === rows) return bottom;
+                return row * cellH;
+              };
+
+              let path = "";
+
+              // 1. Top-left of the active days
+              if (firstCol > 0) {
+                path += `M ${getX(firstCol) + R} ${top}`;
+              } else {
+                path += `M ${left + R} ${top}`;
+              }
+
+              // 2. Go to top-right corner
+              path += ` L ${right - R} ${top}`;
+              path += ` A ${R} ${R} 0 0 1 ${right} ${top + R}`;
+
+              // 3. Go down right side and step at bottom-right if needed
+              if (lastCol === 6) {
+                path += ` L ${right} ${bottom - R}`;
+                path += ` A ${R} ${R} 0 0 1 ${right - R} ${bottom}`;
+                path += ` L ${left + R} ${bottom}`;
+              } else {
+                const stepY = getY(rows - 1);
+                path += ` L ${right} ${stepY - R}`;
+                path += ` A ${R} ${R} 0 0 0 ${right - R} ${stepY}`;
+                path += ` L ${getX(lastCol + 1) + R} ${stepY}`;
+                path += ` A ${R} ${R} 0 0 0 ${getX(lastCol + 1)} ${stepY + R}`;
+                path += ` L ${getX(lastCol + 1)} ${bottom - R}`;
+                path += ` A ${R} ${R} 0 0 1 ${getX(lastCol + 1) - R} ${bottom}`;
+                path += ` L ${left + R} ${bottom}`;
+              }
+
+              // 4. Bottom-left corner and go up
+              path += ` A ${R} ${R} 0 0 1 ${left} ${bottom - R}`;
+
+              // 5. Go up the left side and step at top-left if needed
+              if (firstCol === 0) {
+                path += ` L ${left} ${top + R}`;
+                path += ` A ${R} ${R} 0 0 1 ${left + R} ${top}`;
+              } else {
+                const stepY = getY(1);
+                path += ` L ${left} ${stepY + R}`;
+                path += ` A ${R} ${R} 0 0 0 ${left + R} ${stepY}`;
+                path += ` L ${getX(firstCol) - R} ${stepY}`;
+                path += ` A ${R} ${R} 0 0 0 ${getX(firstCol)} ${stepY - R}`;
+                path += ` L ${getX(firstCol)} ${top + R}`;
+                path += ` A ${R} ${R} 0 0 1 ${getX(firstCol) + R} ${top}`;
+              }
+
+              path += " Z";
+              return path;
+            };
+            
+            return (
+              <div className="relative overflow-visible">
+                {/* Outer container border - dynamic SVG outlines active days */}
+                <svg
+                  className="absolute inset-0 w-full h-full pointer-events-none overflow-visible"
+                  viewBox={`0 0 700 ${rowCount * 100}`}
+                  preserveAspectRatio="none"
+                  style={{ zIndex: 2 }}
+                  aria-hidden="true"
+                >
+                  <path
+                    d={getBorderPath(firstDateColumn, lastDateColumn, rowCount)}
+                    fill="none"
+                    stroke="rgba(0, 0, 0, 0.06)"
+                    strokeWidth="1.2"
+                    vectorEffect="non-scaling-stroke"
+                  />
+                </svg>
+                
+                {/* Internal grid lines overlay - sits behind content, clipped to bounds */}
+                <div 
+                  className="absolute inset-0 pointer-events-none overflow-hidden"
+                  style={{ zIndex: 0 }}
+                  aria-hidden="true"
+                >
+                  {/* Internal vertical lines - only between adjacent date cells */}
+                  {[1, 2, 3, 4, 5, 6].map((colIndex) => {
+                    const segments: { top: number; bottom: number }[] = [];
+                    let segmentStart: number | null = null;
+                    
+                    for (let row = 0; row < rowCount; row++) {
+                      const leftHasDate = getColumnHasDateInRow(colIndex - 1, row);
+                      const rightHasDate = getColumnHasDateInRow(colIndex, row);
+                      const shouldDrawLine = leftHasDate && rightHasDate;
+                      
+                      if (shouldDrawLine && segmentStart === null) {
+                        segmentStart = row;
+                      } else if (!shouldDrawLine && segmentStart !== null) {
+                        segments.push({ top: segmentStart, bottom: row });
+                        segmentStart = null;
+                      }
+                    }
+                    if (segmentStart !== null) {
+                      segments.push({ top: segmentStart, bottom: rowCount });
+                    }
+                    
+                    return segments.map((seg, segIdx) => {
+                      // Calculate top position - internal lines should start from horizontal grid lines
+                      // For row 0, start from 0 (top border), for other rows start from the horizontal line position
+                      const topPos = `${seg.top * cellHeight}%`;
+                      // For bottom, end at the horizontal line position or bottom border
+                      const bottomPos = `${(rowCount - seg.bottom) * cellHeight}%`;
+                      
+                      return (
+                        <div
+                          key={`v-${colIndex}-${segIdx}`}
+                          className="absolute"
+                          style={{
+                            left: `${colIndex * cellWidth}%`,
+                            top: topPos,
+                            bottom: bottomPos,
+                            width: '1px',
+                            background: 'rgba(0, 0, 0, 0.04)',
+                          }}
+                        />
+                      );
+                    });
+                  })}
+                  
+                  {/* Internal horizontal lines - only between rows where BOTH have dates */}
+                  {Array.from({ length: rowCount - 1 }, (_, rowIdx) => rowIdx + 1).map((rowIndex) => {
+                    let segmentStart: number | null = null;
+                    const segments: { left: number; right: number }[] = [];
+                    
+                    for (let col = 0; col < 7; col++) {
+                      const aboveHasDate = getColumnHasDateInRow(col, rowIndex - 1);
+                      const belowHasDate = getColumnHasDateInRow(col, rowIndex);
+                      const shouldDrawLine = aboveHasDate && belowHasDate;
+                      
+                      if (shouldDrawLine && segmentStart === null) {
+                        segmentStart = col;
+                      } else if (!shouldDrawLine && segmentStart !== null) {
+                        segments.push({ left: segmentStart, right: col });
+                        segmentStart = null;
+                      }
+                    }
+                    if (segmentStart !== null) {
+                      segments.push({ left: segmentStart, right: 7 });
+                    }
+                    
+                    return segments.map((seg, segIdx) => (
+                      <div
+                        key={`h-${rowIndex}-${segIdx}`}
+                        className="absolute"
+                        style={{
+                          top: `${rowIndex * cellHeight}%`,
+                          left: `${seg.left * cellWidth}%`,
+                          right: `${(7 - seg.right) * cellWidth}%`,
+                          height: '1px',
+                          background: 'rgba(0, 0, 0, 0.04)',
+                        }}
+                      />
+                    ));
+                  })}
+                </div>
+
+                {/* Calendar cells - above grid lines */}
+                <div 
+                  className="relative grid grid-cols-7"
+                  style={{ zIndex: 1 }}
+                >
+                  {currentMonthData.days.map((day, index) => {
+                    const birthday = day ? isBirthdayDate(day) : false;
+
+                    // Group entries for this day
+                    const dayEntries = day ? getEntriesForDay(day) : [];
+
+                    return (
+                      <div 
+                        key={`${year}-${month}-${index}`}
+                        data-calendar-day-button={day ? "true" : undefined}
+                        className="pt-0.5 pb-0 px-0.5 flex items-center justify-center border-0"
+                        style={{ zIndex: selectedDay === day ? 30 : 1 }}
+                        onClick={(e) => {
+                          const target = e.target as HTMLElement | null;
+                          // If the actual inner day button handled the click, do nothing.
+                          if (target?.closest('button[data-calendar-day-button="true"]')) return;
+                          if (day && !isDayDisabled(day)) {
+                            onDayClick(day);
+                          }
+                        }}
+                      >
+                        <CalendarDayCell 
+                          day={day} 
+                          entries={dayEntries} 
+                          isSelected={selectedDay === day} 
+                          isHighlighted={day ? highlightedDays.has(day) : false} 
+                          isDisabled={day ? isDayDisabled(day) : false} 
+                          isToday={day ? isToday(day) : false}
+                          isBirthday={birthday}
+                          unreadCount={day ? getUnreadCountForDate(new Date(year, month, day)) : 0} 
+                          onClick={() => {
+                            if (day && !isDayDisabled(day)) {
+                              onDayClick(day);
+                            }
+                          }} 
+                          onLongPress={() => {
+                            if (day && !isDayDisabled(day)) {
+                              onDayLongPress(day);
+                            }
+                          }} 
+                          dateKey={day ? getDateKey(day) : undefined}
+                          isTransitioning={isAnimating}
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })()}
             </motion.div>
           </AnimatePresence>
         </div>

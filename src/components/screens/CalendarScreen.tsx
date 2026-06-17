@@ -880,7 +880,7 @@ export function CalendarScreen({ isPremium, isBasic = false, onUpgrade, onNaviga
                 )}
               </div>
             </div>
-          ) : !isCurrentMonth && monthEntries.length === 0 ? (
+          ) : !isCurrentMonth && moodEntries.length === 0 ? (
             <div
               className="bg-card rounded-3xl px-4 py-[15px] border border-border/40 flex justify-center"
               style={{
