@@ -424,7 +424,7 @@ export function MonthCarousel({
               } else {
                 const stepY = getY(rows - 1);
                 path += ` L ${right} ${stepY - R}`;
-                path += ` A ${R} ${R} 0 0 0 ${right - R} ${stepY}`;
+                path += ` A ${R} ${R} 0 0 1 ${right - R} ${stepY}`;
                 path += ` L ${getX(lastCol + 1) + R} ${stepY}`;
                 path += ` A ${R} ${R} 0 0 0 ${getX(lastCol + 1)} ${stepY + R}`;
                 path += ` L ${getX(lastCol + 1)} ${bottom - R}`;
@@ -444,7 +444,7 @@ export function MonthCarousel({
                 path += ` L ${left} ${stepY + R}`;
                 path += ` A ${R} ${R} 0 0 1 ${left + R} ${stepY}`;
                 path += ` L ${getX(firstCol) - R} ${stepY}`;
-                path += ` A ${R} ${R} 0 0 1 ${getX(firstCol)} ${stepY - R}`;
+                path += ` A ${R} ${R} 0 0 0 ${getX(firstCol)} ${stepY - R}`;
                 path += ` L ${getX(firstCol)} ${top + R}`;
                 path += ` A ${R} ${R} 0 0 1 ${getX(firstCol) + R} ${top}`;
               }
