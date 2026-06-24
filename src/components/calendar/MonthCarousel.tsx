@@ -414,39 +414,39 @@ export function MonthCarousel({
 
               // 2. Go to top-right corner
               path += ` L ${right - R} ${top}`;
-              path += ` A ${R} ${R} 0 0 1 ${right} ${top + R}`;
+              path += ` Q ${right} ${top} ${right} ${top + R}`;
 
               // 3. Go down right side and step at bottom-right if needed
               if (lastCol === 6) {
                 path += ` L ${right} ${bottom - R}`;
-                path += ` A ${R} ${R} 0 0 1 ${right - R} ${bottom}`;
+                path += ` Q ${right} ${bottom} ${right - R} ${bottom}`;
                 path += ` L ${left + R} ${bottom}`;
               } else {
                 const stepY = getY(rows - 1);
                 path += ` L ${right} ${stepY - R}`;
-                path += ` A ${R} ${R} 0 0 1 ${right - R} ${stepY}`;
+                path += ` Q ${right} ${stepY} ${right - R} ${stepY}`;
                 path += ` L ${getX(lastCol + 1) + R} ${stepY}`;
-                path += ` A ${R} ${R} 0 0 0 ${getX(lastCol + 1)} ${stepY + R}`;
+                path += ` Q ${getX(lastCol + 1)} ${stepY} ${getX(lastCol + 1)} ${stepY + R}`;
                 path += ` L ${getX(lastCol + 1)} ${bottom - R}`;
-                path += ` A ${R} ${R} 0 0 1 ${getX(lastCol + 1) - R} ${bottom}`;
+                path += ` Q ${getX(lastCol + 1)} ${bottom} ${getX(lastCol + 1) - R} ${bottom}`;
                 path += ` L ${left + R} ${bottom}`;
               }
 
               // 4. Bottom-left corner and go up
-              path += ` A ${R} ${R} 0 0 1 ${left} ${bottom - R}`;
+              path += ` Q ${left} ${bottom} ${left} ${bottom - R}`;
 
               // 5. Go up the left side and step at top-left if needed
               if (firstCol === 0) {
                 path += ` L ${left} ${top + R}`;
-                path += ` A ${R} ${R} 0 0 1 ${left + R} ${top}`;
+                path += ` Q ${left} ${top} ${left + R} ${top}`;
               } else {
                 const stepY = getY(1);
                 path += ` L ${left} ${stepY + R}`;
-                path += ` A ${R} ${R} 0 0 1 ${left + R} ${stepY}`;
+                path += ` Q ${left} ${stepY} ${left + R} ${stepY}`;
                 path += ` L ${getX(firstCol) - R} ${stepY}`;
-                path += ` A ${R} ${R} 0 0 0 ${getX(firstCol)} ${stepY - R}`;
+                path += ` Q ${getX(firstCol)} ${stepY} ${getX(firstCol)} ${stepY - R}`;
                 path += ` L ${getX(firstCol)} ${top + R}`;
-                path += ` A ${R} ${R} 0 0 1 ${getX(firstCol) + R} ${top}`;
+                path += ` Q ${getX(firstCol)} ${top} ${getX(firstCol) + R} ${top}`;
               }
 
               path += " Z";
