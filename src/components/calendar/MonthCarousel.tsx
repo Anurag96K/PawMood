@@ -385,6 +385,7 @@ export function MonthCarousel({
               // Inset by 0.5px to keep stroke perfectly inside boundaries (no clipping)
               const inset = 0.5;
               const R = 8; // Corner radius in SVG units
+              const K = R * 0.5522847; // Kappa for circular approximation
 
               const left = inset;
               const right = W - inset;
@@ -414,39 +415,39 @@ export function MonthCarousel({
 
               // 2. Go to top-right corner
               path += ` L ${right - R} ${top}`;
-              path += ` Q ${right} ${top} ${right} ${top + R}`;
+              path += ` C ${right - (R - K)} ${top}, ${right} ${top + (R - K)}, ${right} ${top + R}`;
 
               // 3. Go down right side and step at bottom-right if needed
               if (lastCol === 6) {
                 path += ` L ${right} ${bottom - R}`;
-                path += ` Q ${right} ${bottom} ${right - R} ${bottom}`;
+                path += ` C ${right} ${bottom - (R - K)}, ${right - (R - K)} ${bottom}, ${right - R} ${bottom}`;
                 path += ` L ${left + R} ${bottom}`;
               } else {
                 const stepY = getY(rows - 1);
                 path += ` L ${right} ${stepY - R}`;
-                path += ` Q ${right} ${stepY} ${right - R} ${stepY}`;
+                path += ` C ${right} ${stepY - (R - K)}, ${right - (R - K)} ${stepY}, ${right - R} ${stepY}`;
                 path += ` L ${getX(lastCol + 1) + R} ${stepY}`;
-                path += ` Q ${getX(lastCol + 1)} ${stepY} ${getX(lastCol + 1)} ${stepY + R}`;
+                path += ` C ${getX(lastCol + 1) + (R - K)} ${stepY}, ${getX(lastCol + 1)} ${stepY + (R - K)}, ${getX(lastCol + 1)} ${stepY + R}`;
                 path += ` L ${getX(lastCol + 1)} ${bottom - R}`;
-                path += ` Q ${getX(lastCol + 1)} ${bottom} ${getX(lastCol + 1) - R} ${bottom}`;
+                path += ` C ${getX(lastCol + 1)} ${bottom - (R - K)}, ${getX(lastCol + 1) - (R - K)} ${bottom}, ${getX(lastCol + 1) - R} ${bottom}`;
                 path += ` L ${left + R} ${bottom}`;
               }
 
               // 4. Bottom-left corner and go up
-              path += ` Q ${left} ${bottom} ${left} ${bottom - R}`;
+              path += ` C ${left + (R - K)} ${bottom}, ${left} ${bottom - (R - K)}, ${left} ${bottom - R}`;
 
               // 5. Go up the left side and step at top-left if needed
               if (firstCol === 0) {
                 path += ` L ${left} ${top + R}`;
-                path += ` Q ${left} ${top} ${left + R} ${top}`;
+                path += ` C ${left} ${top + (R - K)}, ${left + (R - K)} ${top}, ${left + R} ${top}`;
               } else {
                 const stepY = getY(1);
                 path += ` L ${left} ${stepY + R}`;
-                path += ` Q ${left} ${stepY} ${left + R} ${stepY}`;
+                path += ` C ${left} ${stepY + (R - K)}, ${left + (R - K)} ${stepY}, ${left + R} ${stepY}`;
                 path += ` L ${getX(firstCol) - R} ${stepY}`;
-                path += ` Q ${getX(firstCol)} ${stepY} ${getX(firstCol)} ${stepY - R}`;
+                path += ` C ${getX(firstCol) - (R - K)} ${stepY}, ${getX(firstCol)} ${stepY - (R - K)}, ${getX(firstCol)} ${stepY - R}`;
                 path += ` L ${getX(firstCol)} ${top + R}`;
-                path += ` Q ${getX(firstCol)} ${top} ${getX(firstCol) + R} ${top}`;
+                path += ` C ${getX(firstCol)} ${top + (R - K)}, ${getX(firstCol) + (R - K)} ${top}, ${getX(firstCol) + R} ${top}`;
               }
 
               path += " Z";
